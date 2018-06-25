@@ -1,8 +1,7 @@
 <template>
     <div>
-        <label>Fullname: {{ user.fullName }}</label>
-        <hr>
-        <label>Type: {{ user.type }}</label>
+        <label>Fullname: {{ user ? user.fullName : '' }}</label>
+        <label>Type: {{ user ? user.type : '' }}</label>
     </div>
 </template>
 

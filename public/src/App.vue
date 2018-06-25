@@ -1,23 +1,41 @@
 <template>
     <div id="app">
-        <header>
-            <user-info :user="user"></user-info>
-        </header>
-        <main>
-            <router-view/>
-        </main>
-        <footer>A footer</footer>
+        <v-app>
+            <v-navigation-drawer app>
+                <v-list>
+                    <v-list-tile v-for="(route, i) in routes" :key="i" :to="{ path: route.path } ">
+                        <v-list-tile-action>
+                            <v-icon>{{ route.icon }}</v-icon>
+                        </v-list-tile-action>
+                        <v-list-tile-content>
+                            <v-list-tile-title>{{ route.friendlyName }}</v-list-tile-title>
+                        </v-list-tile-content>
+                    </v-list-tile>
+                </v-list>
+            </v-navigation-drawer>
+            <v-toolbar app>
+                <user-info :user="user"></user-info>
+            </v-toolbar>
+            <v-content>
+                <v-container fluid>
+                    <router-view></router-view>
+                </v-container>
+            </v-content>
+            <v-footer app></v-footer>
+        </v-app>
     </div>
 </template>
 
 <script>
 import UserService from './services/User'
 import UserInfo from './components/UserInfo'
+import routes from './router/routes'
 
 export default {
     data() {
         return {
-            user: null
+            user: null,
+            routes
         }
     },
     name: 'App',
