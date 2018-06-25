@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <header>
-            <user-info v-bind:user="user"></user-info>
+            <user-info :user="user"></user-info>
         </header>
         <main>
             <router-view/>
@@ -12,6 +12,7 @@
 
 <script>
 import UserService from './services/User'
+import UserInfo from './components/UserInfo'
 
 export default {
     data() {
@@ -23,6 +24,9 @@ export default {
     created() {
         const userService = new UserService()
         userService.fetch(1).then(user => { this.user = user })
+    },
+    components: {
+        UserInfo
     }
 }
 </script>

@@ -1,6 +1,5 @@
 export default class User {
     constructor(user) {
-        // fetch User data
         this.fullName = user.fullName
         this.type = user.type
     }
