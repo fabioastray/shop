@@ -19,7 +19,7 @@
                             <v-list-tile-title>{{ item.title }}</v-list-tile-title>
                         </v-list-tile-content>
                     </v-list-tile>
-                    <v-list-tile v-for="subItem in item.items" :key="subItem.title" @click="">
+                    <v-list-tile v-for="subItem in item.items" :key="subItem.title" :to="{ path: subItem.path }">
                         <v-list-tile-content>
                             <v-list-tile-title>{{ subItem.title }}</v-list-tile-title>
                         </v-list-tile-content>
@@ -74,7 +74,7 @@
             fab
             bottom
             right
-            color="pink"
+            color="indigo"
             dark
             fixed
             @click.stop="dialog = !dialog"
