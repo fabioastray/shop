@@ -2,6 +2,7 @@ export default class User {
     constructor(user) {
         this.fullName = user.fullName
         this.type = user.type
+        this.avatar = user.avatar
     }
 
     getFullname() {
@@ -10,5 +11,9 @@ export default class User {
 
     getType() {
         return this.type
+    }
+
+    getAvatar() {
+        return this.avatar
     }
 }

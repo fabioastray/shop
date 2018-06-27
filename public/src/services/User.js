@@ -10,7 +10,8 @@ export default class UserService {
         return Promise.resolve(
             new User({
                 fullName: 'Fabio Campos',
-                type: 'user'
+                type: 'user',
+                avatar: 'https://randomuser.me/api/portraits/men/85.jpg'
             })
         )
     // return this.http.get(`/users/${id}`);

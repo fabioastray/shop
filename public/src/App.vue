@@ -6,7 +6,9 @@
             fixed
             app
         >
+            <user-info :data="user" v-if="user"></user-info>
             <v-list>
+                <v-divider></v-divider>
                 <v-list-group
                     v-for="item in items"
                     v-model="item.active"
@@ -24,7 +26,7 @@
                             <v-list-tile-title>{{ subItem.title }}</v-list-tile-title>
                         </v-list-tile-content>
                         <v-list-tile-action>
-                            <v-icon>{{ subItem.action }}</v-icon>
+                            <v-icon>{{ subItem.icon }}</v-icon>
                         </v-list-tile-action>
                     </v-list-tile>
                 </v-list-group>
@@ -38,7 +40,7 @@
             fixed>
             <v-toolbar-title style="width: 300px" class="ml-0 pl-3">
                 <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-                <span class="hidden-sm-and-down"><router-link :to="{ name: 'HomePage' }">My Shop</router-link></span>
+                <span class="hidden-sm-and-down"><router-link :to="{ name: 'home' }">My Shop</router-link></span>
             </v-toolbar-title>
             <v-text-field
                 flat
@@ -66,7 +68,7 @@
         <v-content>
             <v-container fluid fill-height>
                 <v-layout justify-center align-center>
-                    Content
+                    <router-view></router-view>
                 </v-layout>
             </v-container>
         </v-content>
@@ -148,23 +150,22 @@
 </template>
 
 <script>
+import routes from './router/routes'
 import UserService from './services/User'
 import UserInfo from './components/UserInfo'
-import routes from './router/routes'
 
 export default {
     data() {
         return {
             user: null,
-            routes,
             dialog: false,
-            drawer: null,
+            drawer: true,
             items: [
                 {
-                    action: 'local_activity',
-                    title: 'Attractions',
+                    action: 'settings',
+                    title: 'Settings',
                     items: [
-                        {title: 'List Item'}
+                        routes.getByName('home')
                     ]
                 },
                 {
@@ -216,12 +217,12 @@ export default {
         }
     },
     name: 'App',
+    components: {
+        UserInfo
+    },
     created() {
         const userService = new UserService()
         userService.fetch(1).then(user => { this.user = user })
-    },
-    components: {
-        UserInfo
     }
 }
 </script>

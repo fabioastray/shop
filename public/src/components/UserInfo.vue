@@ -1,17 +1,24 @@
 <template>
-    <div>
-        <label>Fullname: {{ user ? user.fullName : '' }}</label>
-        <label>Type: {{ user ? user.type : '' }}</label>
-    </div>
+    <v-toolbar flat class="transparent">
+        <v-list class="pa-0">
+            <v-list-tile avatar>
+                <v-list-tile-avatar>
+                    <img :src="data.getAvatar()">
+                </v-list-tile-avatar>
+                <v-list-tile-content>
+                    <v-list-tile-title>{{ data.getFullname() }}</v-list-tile-title>
+                </v-list-tile-content>
+            </v-list-tile>
+        </v-list>
+    </v-toolbar>
 </template>
 
 <script>
-import UserInfo from '../components/UserInfo'
+import UserInfo from '../models/User'
 
 export default {
-    name: 'UserInfo',
     props: {
-        user: {
+        data: {
             required: true,
             type: UserInfo
         }
