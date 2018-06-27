@@ -3,7 +3,8 @@ import Axios from 'axios'
 export default class Http {
     constructor() {
         const defaultConfig = {
-            timeout: 3000
+            timeout: 3000,
+            baseURL: 'http://localhost:8083'
         }
         this.http = Axios.create(defaultConfig)
 

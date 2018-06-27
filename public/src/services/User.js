@@ -7,13 +7,6 @@ export default class UserService {
     }
 
     fetch(id) {
-        return Promise.resolve(
-            new User({
-                fullName: 'Fabio Campos',
-                type: 'user',
-                avatar: 'https://randomuser.me/api/portraits/men/85.jpg'
-            })
-        )
-    // return this.http.get(`/users/${id}`);
+        return this.http.get(`/users/${id}`).then((data) => new User(data));
     }
 }

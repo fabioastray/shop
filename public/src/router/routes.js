@@ -2,7 +2,7 @@ import HomePage from '../components/HomePage'
 
 export default {
     list: [ // Add routes to this array
-        { path: '*', redirect: '/' },
+        { path: '*', redirect: '/' }, // Unknown paths will be redirected to home
         {
             path: '/',
             name: 'home',
