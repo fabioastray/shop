@@ -8,6 +8,8 @@ import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
 import router from './router'
 import App from './App'
+import LoginPage from './components/LoginPage'
+import Utils from './utils/utils'
 
 Vue.use(Vuetify)
 Vue.config.productionTip = false
@@ -17,7 +19,11 @@ new Vue({
     el: '#app',
     router,
     components: {
-        App
+        App,
+        LoginPage
     },
-    template: '<App/>'
+    render(h) {
+        const component = Utils.getCookie('user').length === 0 ? LoginPage : App
+        return h(component)
+    }
 })

@@ -3,7 +3,7 @@ var router = express.Router();
 
 /* GET users listing. */
 router.get('/:userId', function(req, res, next) {
-  res.send({
+  res.json({
     fullName: 'Fabio Campos',
     type: 'user',
     avatar: 'https://randomuser.me/api/portraits/men/85.jpg'
