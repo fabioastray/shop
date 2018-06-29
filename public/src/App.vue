@@ -150,86 +150,86 @@
 </template>
 
 <script>
-    import routes from './router/routes'
-    import UserService from './services/User'
-    import UserInfo from './components/UserInfo'
+import routes from './router/routes'
+import UserService from './services/User'
+import UserInfo from './components/UserInfo'
 
-    export default {
-        data() {
-            return {
-                user: null,
-                dialog: false,
-                drawer: true,
-                items: [
-                    {
-                        action: 'settings',
-                        title: 'Settings',
-                        items: [
-                            routes.getByName('home')
-                        ]
-                    },
-                    {
-                        action: 'restaurant',
-                        title: 'Dining',
-                        active: true,
-                        items: [
-                            {title: 'Breakfast & brunch'},
-                            {title: 'New American'},
-                            {title: 'Sushi'}
-                        ]
-                    },
-                    {
-                        action: 'school',
-                        title: 'Education',
-                        items: [
-                            {title: 'List Item'}
-                        ]
-                    },
-                    {
-                        action: 'directions_run',
-                        title: 'Family',
-                        items: [
-                            {title: 'List Item'}
-                        ]
-                    },
-                    {
-                        action: 'healing',
-                        title: 'Health',
-                        items: [
-                            {title: 'List Item'}
-                        ]
-                    },
-                    {
-                        action: 'content_cut',
-                        title: 'Office',
-                        items: [
-                            {title: 'List Item'}
-                        ]
-                    },
-                    {
-                        action: 'local_offer',
-                        title: 'Promotions',
-                        items: [
-                            {title: 'List Item'}
-                        ]
-                    }
-                ]
-            }
-        },
-        name: 'App',
-        components: {
-            UserInfo
-        },
-        created() {
-            const userService = new UserService()
-            userService.fetch(1).then(user => { this.user = user })
+export default {
+    data() {
+        return {
+            user: null,
+            dialog: false,
+            drawer: true,
+            items: [
+                {
+                    action: 'settings',
+                    title: 'Settings',
+                    items: [
+                        routes.getByName('home')
+                    ]
+                },
+                {
+                    action: 'restaurant',
+                    title: 'Dining',
+                    active: true,
+                    items: [
+                        {title: 'Breakfast & brunch'},
+                        {title: 'New American'},
+                        {title: 'Sushi'}
+                    ]
+                },
+                {
+                    action: 'school',
+                    title: 'Education',
+                    items: [
+                        {title: 'List Item'}
+                    ]
+                },
+                {
+                    action: 'directions_run',
+                    title: 'Family',
+                    items: [
+                        {title: 'List Item'}
+                    ]
+                },
+                {
+                    action: 'healing',
+                    title: 'Health',
+                    items: [
+                        {title: 'List Item'}
+                    ]
+                },
+                {
+                    action: 'content_cut',
+                    title: 'Office',
+                    items: [
+                        {title: 'List Item'}
+                    ]
+                },
+                {
+                    action: 'local_offer',
+                    title: 'Promotions',
+                    items: [
+                        {title: 'List Item'}
+                    ]
+                }
+            ]
         }
+    },
+    name: 'App',
+    components: {
+        UserInfo
+    },
+    created() {
+        const userService = new UserService()
+        userService.fetch(1).then(user => { this.user = user })
     }
+}
 </script>
 
 <style>
-    a.router-link-active {
-        color: #fff;
-        text-decoration: none;
-    }
+a.router-link-active {
+    color: #fff;
+    text-decoration: none;
+}
 </style>

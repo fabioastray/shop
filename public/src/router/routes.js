@@ -11,7 +11,8 @@ export default {
             component: SignupPage,
             title: 'Signup',
             icon: 'lock'
-        },{
+        },
+        {
             path: '/login',
             name: 'login',
             component: LoginPage,
