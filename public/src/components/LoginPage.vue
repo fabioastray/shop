@@ -5,8 +5,8 @@
                 <v-layout justify-center align-center>
                     <v-form v-model="valid">
                         <v-text-field
-                            v-model="email"
-                            :rules="emailRules"
+                            v-model="username"
+                            :rules="usernameRules"
                             label="E-mail"
                             required
                         ></v-text-field>
@@ -39,8 +39,8 @@ export default {
     data () {
         return {
             valid: false,
-            email: '',
-            emailRules: [
+            username: '',
+            usernameRules: [
                 v => !!v || 'E-mail is required',
                 v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
             ],
@@ -54,7 +54,7 @@ export default {
     methods: {
         submit() {
             const userService = new UserService()
-            userService.login(this.email, this.password)
+            userService.login(this.username, this.password)
         }
     }
 }

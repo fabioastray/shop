@@ -3,6 +3,8 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const bodyParser = require('body-parser')
+const session = require('express-session')
+const cors = require('cors')
 
 const app = express();
 
@@ -13,11 +15,11 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // CORS
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
+const corsOptions = {
+  origin: 'http://localhost:8082',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
+app.use(cors(corsOptions));
 
 // Compression
 const compression = require('compression')
@@ -45,12 +47,21 @@ mongoose.connect('mongodb://ds221271.mlab.com:21271/shop-schema', options)
           console.log('Could not connect to db', err)
         })
 
-const user = require('./models/user')
+// configure bodyParser
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
+
+// session management
+app.use(
+    session({
+      secret: 'mysecrethash',
+      resave: true,
+      saveUninitialized: false
+    })
+)
 
 // Routes
-const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/', usersRouter);
 
 module.exports = app;
