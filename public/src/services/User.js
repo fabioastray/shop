@@ -6,8 +6,8 @@ export default class UserService {
         this.http = new Http()
     }
 
-    login(params) {
-        return this.http.post('/login', params)
+    login(email, password) {
+        return this.http.post('/login', { email, password })
     }
 
     fetch(id) {
