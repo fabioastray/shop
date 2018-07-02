@@ -4,10 +4,10 @@ const Schema = mongoose.Schema
 let userSchema = new Schema({
   fullName: {
     type: String,
-    required: true,
+    required: false,
     trim: true
   },
-  email: {
+  username: {
     type: String,
     required: true,
     trim: true,
@@ -20,7 +20,7 @@ let userSchema = new Schema({
   },
   gender: {
     type: String,
-    required: true
+    required: false
   },
   passResetKey: String,
   passKeyExpires: Number,
@@ -35,17 +35,18 @@ let userSchema = new Schema({
 }, { runSettersOnQuery: true }) // 'runSettersOnQuery' is used to implement the specifications in our model schema such as the 'trim' option.)
 
 userSchema.pre('save', (next) => {
-  this.email = this.email.toLowerCase()
+  console.log(userSchema)
+  userSchema.username = userSchema.username.toLowerCase()
 
   const currentDate = new Date().getTime()
-  this.updatedAt = currentDate
-  if (!this.createdAt) {
-    this.createdAt = currentDate
+  userSchema.updatedAt = currentDate
+  if (!userSchema.createdAt) {
+    userSchema.createdAt = currentDate
   }
 
   next()
 })
 
-const user = mongoose.model('user', userSchema)
+const user = mongoose.model('users', userSchema)
 
 module.exports = user

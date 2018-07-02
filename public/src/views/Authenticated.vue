@@ -150,9 +150,9 @@
 </template>
 
 <script>
-import routes from './router/routes'
-import UserService from './services/User'
-import UserInfo from './components/UserInfo'
+import routes from '../router/routes'
+import UserService from '../services/User'
+import UserInfo from '../components/UserInfo'
 
 export default {
     data() {
