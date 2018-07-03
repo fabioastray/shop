@@ -4,7 +4,12 @@ import HomePage from '../components/HomePage'
 
 export default {
     list: [ // Add routes to this array
-        { path: '*', redirect: '/login' }, // Unknown paths will be redirected to home
+        {
+            path: '*', // Unknown paths will be redirected to the login page
+            redirect: {
+                name: 'login'
+            }
+        },
         {
             path: '/signup',
             name: 'signup',

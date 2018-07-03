@@ -7,9 +7,9 @@ import 'babel-polyfill'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
 import router from './router'
-import App from './App'
-import LoginPage from './components/LoginPage'
-import Utils from './utils/utils'
+import AuthenticatedView from './views/Authenticated'
+import NotAuthenticatedView from './views/NotAuthenticated'
+import AuthService from './services/Auth'
 
 Vue.use(Vuetify)
 Vue.config.productionTip = false
@@ -19,11 +19,12 @@ new Vue({
     el: '#app',
     router,
     components: {
-        App,
-        LoginPage
+        AuthenticatedView,
+        NotAuthenticatedView
     },
     render(h) {
-        const component = Utils.getCookie('user').length === 0 ? LoginPage : App
+        let component = AuthService.isAuthenticated() ? AuthenticatedView : NotAuthenticatedView
+
         return h(component)
     }
 })

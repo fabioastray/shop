@@ -61,7 +61,19 @@ app.use(
 )
 
 // Routes
-const usersRouter = require('./routes/users');
-app.use('/', usersRouter);
+const userController = require('./src/controllers/userController');
+app.post('/auth/signup', userController.signup)
+app.post('/auth/login', userController.login)
+app.get('/:userId', userController.findOne)
+
+
+// authorization
+// app.use((req, res, next) => {
+//   if (req.session.user) {
+//     next();
+//   } else {
+//     res.status(401).send('Authorization failed! Please login');
+//   }
+// });
 
 module.exports = app;

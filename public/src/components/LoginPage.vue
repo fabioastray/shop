@@ -1,38 +1,36 @@
 <template>
-    <v-app id="app">
-        <v-content>
-            <v-container fluid fill-height>
-                <v-layout justify-center align-center>
-                    <v-form v-model="valid">
-                        <v-text-field
-                            v-model="username"
-                            :rules="usernameRules"
-                            label="E-mail"
-                            required
-                        ></v-text-field>
-                        <v-text-field
-                            v-model="password"
-                            :rules="passwordRules"
-                            label="Password"
-                            required
-                        ></v-text-field>
-                        <v-btn
-                            class="right"
-                            color="primary"
-                            :disabled="!valid"
-                            @click="submit"
-                        >
-                            submit
-                        </v-btn>
-                    </v-form>
-                </v-layout>
-            </v-container>
-        </v-content>
-    </v-app>
+    <v-container fluid fill-height>
+        <v-layout justify-center align-center>
+            <v-form v-model="valid">
+                Login
+                <v-text-field
+                    v-model="username"
+                    :rules="usernameRules"
+                    label="E-mail"
+                    required
+                ></v-text-field>
+                <v-text-field
+                    v-model="password"
+                    :rules="passwordRules"
+                    label="Password"
+                    required
+                ></v-text-field>
+                <v-btn
+                    class="right"
+                    color="primary"
+                    :disabled="!valid"
+                    @click="submit"
+                >
+                    submit
+                </v-btn>
+                <router-link to="signup">Don't have an account yet? Click to create a new one</router-link>
+            </v-form>
+        </v-layout>
+    </v-container>
 </template>
 
 <script>
-import UserService from '../services/User'
+import Auth from '../services/Auth'
 
 export default {
     name: 'LoginPage',
@@ -53,8 +51,7 @@ export default {
     },
     methods: {
         submit() {
-            const userService = new UserService()
-            userService.login(this.username, this.password)
+            Auth.login(this.username, this.password)
         }
     }
 }
