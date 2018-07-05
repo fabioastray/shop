@@ -1,6 +1,6 @@
 const authRules = {
     PASSWORD: {
-        minCharsAmount: 3
+        min: 3
     }
 }
 

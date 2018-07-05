@@ -4,23 +4,21 @@ const User = require('../models/User')
 
 /* POST User Signs up */
 exports.signup = (req, res) => {
-  let { username, password } = req.body
-
   let newUser = new User({
-    username,
-    password: bcrypt.hashSync(password, 5)
+    username: req.body.username,
+    password: bcrypt.hashSync(req.body.password, 5)
   })
 
-  newUser.save().then(err => {
-    if (!err) {
-      res.status(201).send('signup successful')
+  newUser.save().then(user => {
+      console.log('user', user)
+      res.status(201).send(user)
+  }, err => {
+    console.log('err', err)
+    if (err.code ===  11000) { // this error gets thrown only if similar user record already exist.
+      return res.status(409).send('user already exist!')
     } else {
-      if (error.code ===  11000) { // this error gets thrown only if similar user record already exist.
-        return res.status(409).send('user already exist!')
-      } else {
-        console.log(JSON.stringify(error, null, 2)); // you might want to do this to examine and trace where the problem is emanating from
-        return res.status(500).send('error signing up user')
-      }
+      console.log(JSON.stringify(err, null, 2)); // you might want to do this to examine and trace where the problem is emanating from
+      return res.status(500).send('error signing up user')
     }
   })
 }

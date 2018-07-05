@@ -35,13 +35,12 @@ let userSchema = new Schema({
 }, { runSettersOnQuery: true }) // 'runSettersOnQuery' is used to implement the specifications in our model schema such as the 'trim' option.)
 
 userSchema.pre('save', (next) => {
-  console.log(userSchema)
-  userSchema.username = userSchema.username.toLowerCase()
+  // this.username = this.username.toLowerCase()
 
   const currentDate = new Date().getTime()
-  userSchema.updatedAt = currentDate
-  if (!userSchema.createdAt) {
-    userSchema.createdAt = currentDate
+  this.updatedAt = currentDate
+  if (!this.createdAt) {
+    this.createdAt = currentDate
   }
 
   next()

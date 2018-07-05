@@ -5,6 +5,7 @@ import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 import 'babel-polyfill'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
+import './utils/polyfills'
 
 import router from './router'
 import AuthenticatedView from './views/Authenticated'

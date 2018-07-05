@@ -28,7 +28,6 @@ export default class Http {
     }
 
     post(url, params, config) {
-        console.log('post')
         return this.http.post(url, params, config)
     }
 }

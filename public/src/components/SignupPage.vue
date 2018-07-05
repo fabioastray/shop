@@ -1,11 +1,13 @@
 <template>
     <v-container fluid fill-height>
         <v-layout justify-center align-center>
-            <v-form v-model="valid">
+            <v-form v-model="validForm">
                 Sign up
                 <v-text-field
-                    v-model="username"
-                    :rules="usernameRules"
+                    v-model="username.model"
+                    :rules="username.rules"
+                    :error="username.hasError"
+                    :errorMessages="username.errors"
                     label="E-mail"
                     required
                 ></v-text-field>
@@ -27,7 +29,7 @@
                     type="password"
                     class="right"
                     color="primary"
-                    :disabled="!valid"
+                    :disabled="!validForm"
                     @click="submit"
                 >
                     submit
@@ -45,25 +47,34 @@ export default {
     name: 'SignupPage',
     data () {
         return {
-            valid: false,
-            username: '',
-            usernameRules: [
-                v => !!v || 'E-mail is required',
-                v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
-            ],
+            validForm: false,
+            username: {
+                model: '',
+                rules: [
+                    v => !!v || 'E-mail is required',
+                    v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
+                ],
+                hasError: false,
+                errors: []
+            },
             password1: '',
             password2: '',
             passwordRules: [
                 v => !!v || 'This field is required',
-                v => v.length >= authRules.PASSWORD.minCharsAmount || `This field must be more than ${authRules.PASSWORD.minCharsAmount} characters`,
+                v => v.length >= authRules.PASSWORD.min || `This field must be more than ${authRules.PASSWORD.min} characters`,
                 v => this.password1 === this.password2 || 'Passwords must be the same'
-
             ]
         }
     },
     methods: {
         submit() {
-            AuthService.signup(this.username, this.password1)
+            AuthService.signup(this.username.model, this.password1).then(resp => {
+                console.log(resp)
+            }, err => {
+                console.error(err)
+                this.username.hasError = true
+                this.username.errors.push(err.capitalize())
+            })
         }
     }
 }
