@@ -70,6 +70,7 @@ export default {
         submit() {
             AuthService.signup(this.username.model, this.password1).then(resp => {
                 console.log(resp)
+                this.$router.replace({ name: 'home' })
             }, err => {
                 console.error(err)
                 this.username.hasError = true

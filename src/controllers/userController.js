@@ -10,10 +10,8 @@ exports.signup = (req, res) => {
   })
 
   newUser.save().then(user => {
-      console.log('user', user)
-      res.status(201).send(user)
+      res.status(201).send(user._id)
   }, err => {
-    console.log('err', err)
     if (err.code ===  11000) { // this error gets thrown only if similar user record already exist.
       return res.status(409).send('user already exist!')
     } else {
@@ -122,4 +120,10 @@ exports.findOne = (req, res, next) => {
     type: 'user',
     avatar: 'https://randomuser.me/api/portraits/men/85.jpg'
   })
+}
+
+exports.logout = (req, res) => {
+    delete req.session.user
+    req.session.destroy()
+    res.status(200).send('logout successful')
 }

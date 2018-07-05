@@ -11,4 +11,6 @@ router.post('/forgot', userController.forgot);
 
 router.post('/resetpass', userController.resetpass)
 
+router.post('/logout', userController.logout)
+
 module.exports = router;

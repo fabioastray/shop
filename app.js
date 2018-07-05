@@ -68,12 +68,12 @@ app.get('/:userId', userController.findOne)
 
 
 // authorization
-// app.use((req, res, next) => {
-//   if (req.session.user) {
-//     next();
-//   } else {
-//     res.status(401).send('Authorization failed! Please login');
-//   }
-// });
+app.use((req, res, next) => {
+    if (req.session.user) {
+        next();
+    } else {
+        res.status(401).send('Authorization failed! Please login');
+    }
+});
 
 module.exports = app;
