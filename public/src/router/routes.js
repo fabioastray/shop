@@ -3,8 +3,6 @@ import LoginPage from '../components/LoginPage'
 import HomePage from '../components/HomePage'
 import AuthService from '../services/Auth'
 
-https://blog.sqreen.io/authentication-best-practices-vue/
-
 export default {
     list: [ // Add routes to this array
         {

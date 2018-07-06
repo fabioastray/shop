@@ -1,9 +1,7 @@
 const express = require('express');
 const path = require('path');
-const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const bodyParser = require('body-parser')
-const session = require('express-session')
 const cors = require('cors')
 
 const app = express();
@@ -11,7 +9,6 @@ const app = express();
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // CORS
@@ -50,15 +47,6 @@ mongoose.connect('mongodb://ds221271.mlab.com:21271/shop-schema', options)
 // configure bodyParser
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
-
-// session management
-app.use(
-    session({
-      secret: 'mysecrethash',
-      resave: true,
-      saveUninitialized: false
-    })
-)
 
 // Routes
 const userController = require('./src/controllers/userController');
