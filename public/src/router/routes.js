@@ -1,6 +1,9 @@
 import SignupPage from '../components/SignupPage'
 import LoginPage from '../components/LoginPage'
 import HomePage from '../components/HomePage'
+import AuthService from '../services/Auth'
+
+https://blog.sqreen.io/authentication-best-practices-vue/
 
 export default {
     list: [ // Add routes to this array
@@ -31,9 +34,9 @@ export default {
             title: 'Home',
             icon: 'home',
             beforeEnter: (to, from, next) => {
-                console.info('checking auth')
-
-                next()
+                if (!AuthService.isAuthenticated()) {
+                    next('/login')
+                }
             }
         }
     ],
