@@ -1,26 +1,3 @@
-const bcrypt = require("bcrypt")
-// define db schemas
-const User = require('../models/User')
-
-/* POST User Signs up */
-exports.signup = (req, res) => {
-  let newUser = new User({
-    username: req.body.username,
-    password: bcrypt.hashSync(req.body.password, 5)
-  })
-
-  newUser.save().then(user => {
-      res.status(201).send(user._id)
-  }, err => {
-    if (err.code ===  11000) { // this error gets thrown only if similar user record already exist.
-      return res.status(409).send('user already exist!')
-    } else {
-      console.log(JSON.stringify(err, null, 2)); // you might want to do this to examine and trace where the problem is emanating from
-      return res.status(500).send('error signing up user')
-    }
-  })
-}
-
 /* POST User Logs in */
 exports.login = (req, res) => {
   let { username, password } = req.body

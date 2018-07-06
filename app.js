@@ -1,9 +1,8 @@
 const express = require('express');
 const path = require('path');
 const logger = require('morgan');
-const bodyParser = require('body-parser')
 const cors = require('cors')
-
+require('./config/db');
 const app = express();
 
 app.use(logger('dev'));
@@ -28,40 +27,17 @@ function shouldCompress(req, res) {
 }
 app.use(compression({ filter: shouldCompress }))
 
-// Connect to DB
-const mongoose =  require('mongoose')
-/**
- * https://mlab.com, user: rockastray@gmail.com, pass: unforgiven123
- */
-const options = {
-  user: 'root',
-  pass: 'root123'
-}
-mongoose.connect('mongodb://ds221271.mlab.com:21271/shop-schema', options)
-        .then(() => {
-            console.log('Connected to db')
-        }, (err) => {
-          console.log('Could not connect to db', err)
-        })
-
-// configure bodyParser
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
-
 // Routes
-const userController = require('./src/controllers/userController');
-app.post('/auth/signup', userController.signup)
-app.post('/auth/login', userController.login)
-app.get('/:userId', userController.findOne)
-
+const AuthController = require('./src/controllers/AuthController');
+app.post('/auth/register', AuthController.register)
 
 // authorization
-app.use((req, res, next) => {
-    if (req.session.user) {
-        next();
-    } else {
-        res.status(401).send('Authorization failed! Please login');
-    }
-});
+// app.use((req, res, next) => {
+//     if (req.session.user) {
+//         next();
+//     } else {
+//         res.status(401).send('Authorization failed! Please login');
+//     }
+// });
 
 module.exports = app;

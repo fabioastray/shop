@@ -23,7 +23,7 @@
                 >
                     submit
                 </v-btn>
-                <router-link to="signup">Don't have an account yet? Click to create a new one</router-link>
+                <router-link to="register">Don't have an account yet? Click to create a new one</router-link>
             </v-form>
         </v-layout>
     </v-container>

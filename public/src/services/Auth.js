@@ -8,11 +8,7 @@ export default {
         return this.http.post('/auth/login', { username, password })
     },
 
-    signup(username, password) {
-        return this.http.post('/auth/signup', { username, password })
-    },
-
-    isAuthenticated() {
-        return Utils.getCookie('user').length > 0
+    register(user) {
+        return this.http.post('/auth/register', user)
     }
 }

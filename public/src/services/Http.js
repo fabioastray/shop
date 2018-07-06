@@ -1,4 +1,5 @@
 import Axios from 'axios'
+import { AUTH_TOKEN_KEY } from "../store/actions/auth";
 
 export default class Http {
     constructor() {
@@ -10,6 +11,11 @@ export default class Http {
 
         if (this.http.interceptors.response.handlers.length === 0) {
             this.http.interceptors.response.use(this.okResponseInterceptor, this.errorResponseInterceptor)
+        }
+
+        const token = localStorage.getItem(AUTH_TOKEN_KEY)
+        if (token) {
+            this.http.defaults.headers.common['Authorization'] = token
         }
     }
 

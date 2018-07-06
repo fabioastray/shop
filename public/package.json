@@ -15,6 +15,7 @@
     "babel-polyfill": "^6.26.0",
     "es6-promise": "^4.2.4",
     "material-design-icons-iconfont": "^3.0.3",
+    "mobile-detect": "^1.4.2",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
     "vuetify": "^1.0.19",

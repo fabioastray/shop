@@ -2,6 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import Vuetify from 'vuetify'
+
 import 'vuetify/dist/vuetify.min.css'
 import 'babel-polyfill'
 import 'es6-promise/auto'
@@ -11,7 +12,7 @@ import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import router from './router'
 import AuthenticatedView from './views/Authenticated'
 import NotAuthenticatedView from './views/NotAuthenticated'
-import AuthService from './services/Auth'
+import store from './store'
 
 Vue.use(Vuetify)
 Vue.config.productionTip = false
@@ -20,12 +21,13 @@ Vue.config.productionTip = false
 new Vue({
     el: '#app',
     router,
+    store,
     components: {
         AuthenticatedView,
         NotAuthenticatedView
     },
     render(h) {
-        let component = AuthService.isAuthenticated() ? AuthenticatedView : NotAuthenticatedView
+        let component = store.getters.isAuthenticated ? AuthenticatedView : NotAuthenticatedView
 
         return h(component)
     }

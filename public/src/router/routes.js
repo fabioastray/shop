@@ -1,7 +1,23 @@
-import SignupPage from '../components/SignupPage'
+import RegisterPage from '../components/RegisterPage'
 import LoginPage from '../components/LoginPage'
 import HomePage from '../components/HomePage'
-import AuthService from '../services/Auth'
+import store from '../store'
+
+const ifNotAuthenticated = (to, from, next) => {
+    if (!store.getters.isAuthenticated) {
+        next()
+        return
+    }
+    next('/home')
+}
+
+const ifAuthenticated = (to, from, next) => {
+    if (store.getters.isAuthenticated) {
+        next()
+        return
+    }
+    next('/login')
+}
 
 export default {
     list: [ // Add routes to this array
@@ -12,10 +28,10 @@ export default {
             }
         },
         {
-            path: '/signup',
-            name: 'signup',
-            component: SignupPage,
-            title: 'Signup',
+            path: '/register',
+            name: 'register',
+            component: RegisterPage,
+            title: 'Register',
             icon: 'lock'
         },
         {
@@ -32,9 +48,7 @@ export default {
             title: 'Home',
             icon: 'home',
             beforeEnter: (to, from, next) => {
-                if (!AuthService.isAuthenticated()) {
-                    next('/login')
-                }
+
             }
         }
     ],

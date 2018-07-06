@@ -1,8 +1,8 @@
 <template>
     <v-container fluid fill-height>
         <v-layout justify-center align-center>
-            <v-form v-model="validForm">
-                Sign up
+            <v-form v-model="validForm" @submit.prevent="submit">
+                Register
                 <v-text-field
                     v-model="username.model"
                     :rules="username.rules"
@@ -30,7 +30,6 @@
                     class="right"
                     color="primary"
                     :disabled="!validForm"
-                    @click="submit"
                 >
                     submit
                 </v-btn>
@@ -40,11 +39,11 @@
 </template>
 
 <script>
-import AuthService from '../services/Auth'
 import authRules from '../constants/authRules'
+import { AUTH_REGISTER } from '../store/actions/auth'
 
 export default {
-    name: 'SignupPage',
+    name: 'RegisterPage',
     data () {
         return {
             validForm: false,
@@ -68,14 +67,19 @@ export default {
     },
     methods: {
         submit() {
-            AuthService.signup(this.username.model, this.password1).then(resp => {
-                console.log(resp)
-                this.$router.replace({ name: 'home' })
-            }, err => {
-                console.error(err)
-                this.username.hasError = true
-                this.username.errors.push(err.capitalize())
-            })
+            const user = {
+                username: this.username.model,
+                password: this.password1
+            }
+            this.$store.dispatch(AUTH_REGISTER, user)
+                .then(resp => {
+                    console.log(resp)
+                    this.$router.replace({ name: 'home' })
+                }, err => {
+                    console.error(err)
+                    this.username.hasError = true
+                    this.username.errors.push(err.message.capitalize())
+                })
         }
     }
 }
