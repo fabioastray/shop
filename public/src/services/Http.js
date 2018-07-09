@@ -1,5 +1,5 @@
 import Axios from 'axios'
-import { AUTH_TOKEN_KEY } from "../store/actions/auth";
+import {AUTH_LOGOUT, AUTH_TOKEN_KEY} from "../store/actions/auth";
 
 export default class Http {
     constructor() {
@@ -25,6 +25,9 @@ export default class Http {
 
     errorResponseInterceptor(error) {
         const log = error.response ? error.response.data : error.message
+        if (error.status === 401 && error.config && !error.config.__isRetryRequest) {
+            this.$store.dispatch(AUTH_LOGOUT)
+        }
         return Promise.reject(log)
     }
 

@@ -39,7 +39,8 @@ export default {
             name: 'login',
             component: LoginPage,
             title: 'Login',
-            icon: 'lock'
+            icon: 'lock',
+            beforeEnter: ifNotAuthenticated
         },
         {
             path: '/home',
@@ -47,9 +48,7 @@ export default {
             component: HomePage,
             title: 'Home',
             icon: 'home',
-            beforeEnter: (to, from, next) => {
-
-            }
+            beforeEnter: ifAuthenticated
         }
     ],
     getByName(name) {
