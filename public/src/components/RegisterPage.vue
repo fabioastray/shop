@@ -67,10 +67,13 @@ export default {
     },
     methods: {
         submit() {
+            this.resetErrors()
+
             const user = {
                 username: this.username.model,
                 password: this.password1
             }
+
             this.$store.dispatch(AUTH_REGISTER, user)
                 .then(resp => {
                     console.log(resp)
@@ -80,6 +83,12 @@ export default {
                     this.username.hasError = true
                     this.username.errors.push(err.message.capitalize())
                 })
+        },
+        resetErrors() {
+            if (this.username.hasError) {
+                this.username.hasError = false
+                this.username.errors.length = 0
+            }
         }
     }
 }
