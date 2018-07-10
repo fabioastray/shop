@@ -29,7 +29,9 @@ app.use(compression({ filter: shouldCompress }))
 
 // Routes
 const AuthController = require('./src/controllers/AuthController');
+const UserController = require('./src/controllers/UserController');
 app.post('/auth/register', AuthController.register)
+app.get('/users/me', UserController.me)
 
 // authorization
 // app.use((req, res, next) => {

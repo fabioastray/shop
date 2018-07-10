@@ -28,12 +28,16 @@ const actions = {
                 dispatch(USER_REQUEST)
 
                 resolve(resp)
-            }).catch(err => {
-                commit(AUTH_ERROR, err)
+            }).catch(error => {
+                commit(AUTH_ERROR, error)
 
                 localStorage.removeItem(AUTH_TOKEN_KEY)
 
-                reject(err)
+                if (error.status === 401 && error.config && !error.config.__isRetryRequest) {
+                    dispatch(AUTH_LOGOUT)
+                }
+
+                reject(error.response.data)
             })
         })
     },
@@ -57,6 +61,9 @@ const mutations = {
     },
     [AUTH_ERROR]: (state) => {
         state.status = 'error'
+    },
+    [AUTH_LOGOUT]: (state) => {
+        state.token = ''
     }
 }
 

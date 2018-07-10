@@ -6,7 +6,7 @@ export default class UserService {
         this.http = new Http()
     }
 
-    fetch(id) {
-        return this.http.get(`/users/${id}`).then((data) => new User(data))
+    me() {
+        return this.http.get('/users/me').then((data) => new User(data))
     }
 }

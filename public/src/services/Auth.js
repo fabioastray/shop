@@ -1,5 +1,4 @@
 import Http from './Http'
-import Utils from '../utils/utils'
 
 export default {
     http: new Http(),

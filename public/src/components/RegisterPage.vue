@@ -76,12 +76,11 @@ export default {
 
             this.$store.dispatch(AUTH_REGISTER, user)
                 .then(resp => {
-                    console.log(resp)
                     this.$router.replace({ name: 'home' })
-                }, err => {
-                    console.error(err)
+                }, error => {
+                    console.error(error)
                     this.username.hasError = true
-                    this.username.errors.push(err.message.capitalize())
+                    this.username.errors.push(error.message.capitalize())
                 })
         },
         resetErrors() {

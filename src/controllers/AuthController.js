@@ -19,18 +19,20 @@ exports.register = (req, res) => {
     }
 
     res.status(201).send(response)
-  }, err => {
+  }, error => {
     let response = {
       auth: false,
       message: ''
     }
 
-    if (err.code ===  11000) { // this error gets thrown only if similar user record already exist.
+    console.log(error)
+
+    if (error.code ===  11000) { // this error gets thrown only if similar user record already exist.
       response.message = 'user already exist!'
 
       return res.status(409).send(response)
     } else {
-      console.log(JSON.stringify(err, null, 2)); // you might want to do this to examine and trace where the problem is emanating from
+      console.log(JSON.stringify(error, null, 2)); // you might want to do this to examine and trace where the problem is emanating from
       response.message = 'error signing up user'
 
       return res.status(500).send(response)

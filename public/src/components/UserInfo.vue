@@ -3,10 +3,10 @@
         <v-list class="pa-0">
             <v-list-tile avatar>
                 <v-list-tile-avatar>
-                    <img :src="data.getAvatar()">
+                    <img :src="profile.getAvatar()">
                 </v-list-tile-avatar>
                 <v-list-tile-content>
-                    <v-list-tile-title>{{ data.getFullname() }}</v-list-tile-title>
+                    <v-list-tile-title>{{ profile.getFullname() }}</v-list-tile-title>
                 </v-list-tile-content>
             </v-list-tile>
         </v-list>
@@ -14,15 +14,10 @@
 </template>
 
 <script>
-import UserInfo from '../models/User'
+import { mapState } from 'vuex'
 
 export default {
-    props: {
-        data: {
-            required: true,
-            type: UserInfo
-        }
-    }
+    computed: mapState({ profile: state => state.user.profile })
 }
 </script>
 

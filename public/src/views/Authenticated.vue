@@ -6,7 +6,7 @@
             fixed
             app
         >
-            <user-info :data="user" v-if="user"></user-info>
+            <user-info v-if="$store.getters.isProfileLoaded"></user-info>
             <v-list>
                 <v-divider></v-divider>
                 <v-list-group
@@ -151,13 +151,12 @@
 
 <script>
 import routes from '../router/routes'
-import UserService from '../services/User'
+import { USER_REQUEST } from '../store/actions/user'
 import UserInfo from '../components/UserInfo'
 
 export default {
     data() {
         return {
-            user: null,
             dialog: false,
             drawer: true,
             items: [
@@ -221,8 +220,9 @@ export default {
         UserInfo
     },
     created() {
-        const userService = new UserService()
-        userService.fetch(1).then(user => { this.user = user })
+        if (this.$store.getters.isAuthenticated) {
+            this.$store.dispatch(USER_REQUEST)
+        }
     }
 }
 </script>
