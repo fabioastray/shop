@@ -1,24 +1,20 @@
+const HTTP_STATUS_CODE = require('../constants/httpStatusCodes')
 const User = require('../models/User')
 
 exports.me = (req, res, next) => {
-  res.json({
-    fullName: 'Fabio Campos',
-    type: 'user',
-    avatar: 'https://randomuser.me/api/portraits/men/85.jpg'
+  User.findById(req.userId, { password: 0 }, (error, user) => {
+    if (error) return res.status(HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR).send({ message: 'There was a problem finding the user' })
+    if (!user) return res.status(HTTP_STATUS_CODE.NOT_FOUND).send({ message: 'No user found' })
+
+    res.json({
+      username: user.username,
+      fullName: 'Fabio Campos',
+      type: 'user',
+      avatar: 'https://randomuser.me/api/portraits/men/85.jpg'
+    })
   })
 }
 
-// exports.login = (req, res) => {
-//   let { username, password } = req.body
-//   User.findOne({ username }, 'username email password', (err, userData) => {
-//     if (err) {
-//       res.status(401).send('invalid login credentials')
-//     } else {
-//
-//     }
-//   })
-// }
-//
 // exports.forgot = (req, res) => {
 //   let {email} = req.body; // same as let email = req.body.email
 //   User.findOne({email: email}, (err, userData) => {
