@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-const bcrypt = require("bcrypt")
+const bcrypt = require('bcrypt')
 const config = require('../../config/config')
 
 const User = require('../models/User')
@@ -12,7 +12,7 @@ exports.register = (req, res) => {
 
   newUser.save().then(user => {
     const tobeEncoded = { id: user._id }
-    const token = jwt.sign(tobeEncoded, config.jwt.secret, { expiresIn: config.jwt.expiresIn })
+    const token = jwt.sign(tobeEncoded, config.authorization.jwt.secret, { expiresIn: config.authorization.jwt.expiresIn })
     const response = {
       auth: true,
       token
@@ -24,8 +24,6 @@ exports.register = (req, res) => {
       auth: false,
       message: ''
     }
-
-    console.log(error)
 
     if (error.code ===  11000) { // this error gets thrown only if similar user record already exist.
       response.message = 'user already exist!'

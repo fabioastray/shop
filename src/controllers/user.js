@@ -1,3 +1,5 @@
+const User = require('../models/User')
+
 exports.me = (req, res, next) => {
   res.json({
     fullName: 'Fabio Campos',

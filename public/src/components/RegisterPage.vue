@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import authRules from '../constants/authRules'
+import { rules } from '../constants/auth'
 import { AUTH_REGISTER } from '../store/actions/auth'
 
 export default {
@@ -60,7 +60,7 @@ export default {
             password2: '',
             passwordRules: [
                 v => !!v || 'This field is required',
-                v => v.length >= authRules.PASSWORD.min || `This field must be more than ${authRules.PASSWORD.min} characters`,
+                v => v.length >= rules.PASSWORD.min || `This field must be more than ${rules.PASSWORD.min} characters`,
                 v => this.password1 === this.password2 || 'Passwords must be the same'
             ]
         }

@@ -1,10 +1,11 @@
-import {AUTH_ERROR, AUTH_LOGOUT, AUTH_REGISTER, AUTH_SUCCESS, AUTH_TOKEN_KEY} from '../actions/auth'
+import { AUTH_ERROR, AUTH_LOGOUT, AUTH_REGISTER, AUTH_SUCCESS } from '../actions/auth'
 import { USER_REQUEST } from '../actions/user'
+import { authorization } from '../../constants/auth'
 import AuthService from '../../services/Auth'
 import Axios from 'axios'
 
 const state = {
-    token: localStorage.getItem(AUTH_TOKEN_KEY) || '',
+    token: localStorage.getItem(authorization.localStorageKey) || '',
     status: ''
 }
 
@@ -20,9 +21,9 @@ const actions = {
 
             AuthService.register(user).then(resp => {
                 const token = resp.token
-                localStorage.setItem(AUTH_TOKEN_KEY, token)
+                localStorage.setItem(authorization.localStorageKey, token)
 
-                Axios.defaults.headers.common['Authorization'] = token
+                Axios.defaults.headers.common[authorization.headerKey] = token
 
                 commit(AUTH_SUCCESS, token)
                 dispatch(USER_REQUEST)
@@ -31,7 +32,7 @@ const actions = {
             }).catch(error => {
                 commit(AUTH_ERROR, error)
 
-                localStorage.removeItem(AUTH_TOKEN_KEY)
+                localStorage.removeItem(authorization.localStorageKey)
 
                 if (error.status === 401 && error.config && !error.config.__isRetryRequest) {
                     dispatch(AUTH_LOGOUT)
@@ -44,8 +45,8 @@ const actions = {
     [AUTH_LOGOUT]: ({ commit, dispatch }) => {
         return new Promise((resolve, reject) => {
             commit(AUTH_LOGOUT)
-            localStorage.removeItem(AUTH_TOKEN_KEY)
-            delete Axios.defaults.headers.common['Authorization']
+            localStorage.removeItem(authorization.localStorageKey)
+            delete Axios.defaults.headers.common[authorization.headerKey]
             resolve()
         })
     }

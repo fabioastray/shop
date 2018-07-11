@@ -1,5 +1,5 @@
 import Axios from 'axios'
-import { AUTH_TOKEN_KEY } from '../store/actions/auth'
+import { authorization } from '../constants/auth'
 
 export default class Http {
     constructor() {
@@ -13,9 +13,9 @@ export default class Http {
             this.http.interceptors.response.use(this.okResponseInterceptor, this.errorResponseInterceptor)
         }
 
-        const token = localStorage.getItem(AUTH_TOKEN_KEY)
+        const token = localStorage.getItem(authorization.localStorageKey)
         if (token) {
-            this.http.defaults.headers.common['Authorization'] = token
+            this.http.defaults.headers.common[authorization.headerKey] = token
         }
     }
 

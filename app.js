@@ -28,10 +28,12 @@ function shouldCompress(req, res) {
 app.use(compression({ filter: shouldCompress }))
 
 // Routes
-const AuthController = require('./src/controllers/AuthController');
-const UserController = require('./src/controllers/UserController');
+const AuthController = require('./src/controllers/auth')
+const UserController = require('./src/controllers/user')
+const AuthMiddleware = require('./src/middleware/auth')
+
 app.post('/auth/register', AuthController.register)
-app.get('/users/me', UserController.me)
+app.get('/users/me', AuthMiddleware.verifyToken, UserController.me)
 
 // authorization
 // app.use((req, res, next) => {
