@@ -6,6 +6,8 @@
                 <v-text-field
                     v-model="username.model"
                     :rules="username.rules"
+                    :error="username.hasError"
+                    :errorMessages="username.errors"
                     label="E-mail"
                     required
                 ></v-text-field>

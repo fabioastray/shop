@@ -1,4 +1,9 @@
 module.exports = {
+  'authentication': {
+    'resetAccount': {
+      'expiresIn': 20 * 60 * 1000 // 20 minutes
+    }
+  },
   'authorization': {
     'headerKey': 'authorization',
     'jwt': {

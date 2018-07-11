@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-const config = require('../../config/config')
+const config = require('../../config/auth')
 const HTTP_STATUS_CODE = require('../constants/httpStatusCodes')
 
 exports.verifyToken = (req, res, next) => {

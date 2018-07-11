@@ -1,5 +1,4 @@
 import {AUTH_ERROR, AUTH_LOGIN, AUTH_LOGOUT, AUTH_REGISTER, AUTH_SUCCESS} from '../actions/auth'
-import { USER_REQUEST } from '../actions/user'
 import { authorization } from '../../constants/auth'
 import AuthService from '../../services/Auth'
 import Axios from 'axios'
