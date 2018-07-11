@@ -26,7 +26,7 @@
                     required
                 ></v-text-field>
                 <v-btn
-                    type="password"
+                    type="submit"
                     class="right"
                     color="primary"
                     :disabled="!validForm"
@@ -51,7 +51,7 @@ export default {
                 model: '',
                 rules: [
                     v => !!v || 'E-mail is required',
-                    v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
+                    v => rules.EMAIL.regex.test(v) || 'E-mail must be valid'
                 ],
                 hasError: false,
                 errors: []

@@ -20,9 +20,8 @@ const actions = {
 
         userService.me().then(resp => commit(USER_SUCCESS, resp))
             .catch(resp => {
-                // commit(USER_ERROR, resp)
-                //
-                // dispatch(AUTH_LOGOUT)
+                commit(USER_ERROR, resp)
+                dispatch(AUTH_LOGOUT)
             })
     }
 }

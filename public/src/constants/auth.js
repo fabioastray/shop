@@ -1,6 +1,9 @@
 export const rules = {
     PASSWORD: {
         min: 3
+    },
+    EMAIL: {
+        regex: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
     }
 }
 

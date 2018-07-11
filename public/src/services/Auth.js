@@ -3,8 +3,8 @@ import Http from './Http'
 export default {
     http: new Http(),
 
-    login(username, password) {
-        return this.http.post('/auth/login', { username, password })
+    login(user) {
+        return this.http.post('/auth/login', user)
     },
 
     register(user) {

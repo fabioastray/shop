@@ -33,6 +33,7 @@ const UserController = require('./src/controllers/user')
 const AuthMiddleware = require('./src/middleware/auth')
 
 app.post('/auth/register', AuthController.register)
+app.post('/auth/login', AuthController.login)
 app.get('/users/me', AuthMiddleware.verifyToken, UserController.me)
 
 // authorization

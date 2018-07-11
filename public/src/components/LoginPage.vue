@@ -1,57 +1,83 @@
 <template>
     <v-container fluid fill-height>
         <v-layout justify-center align-center>
-            <v-form v-model="valid">
+            <v-form v-model="validForm"  @submit.prevent="submit">
                 Login
                 <v-text-field
-                    v-model="username"
-                    :rules="usernameRules"
+                    v-model="username.model"
+                    :rules="username.rules"
                     label="E-mail"
                     required
                 ></v-text-field>
                 <v-text-field
+                    type="password"
                     v-model="password"
                     :rules="passwordRules"
                     label="Password"
                     required
                 ></v-text-field>
                 <v-btn
+                    type="submit"
                     class="right"
                     color="primary"
-                    :disabled="!valid"
-                    @click="submit"
+                    :disabled="!validForm"
                 >
                     submit
                 </v-btn>
-                <router-link to="register">Don't have an account yet? Click to create a new one</router-link>
+                <router-link to="register">Don't have an account yet? Click here</router-link>
             </v-form>
         </v-layout>
     </v-container>
 </template>
 
 <script>
-import Auth from '../services/Auth'
+import { rules } from '../constants/auth'
+import { AUTH_LOGIN } from '../store/actions/auth'
 
 export default {
     name: 'LoginPage',
     data () {
         return {
-            valid: false,
-            username: '',
-            usernameRules: [
-                v => !!v || 'E-mail is required',
-                v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
-            ],
+            validForm: false,
+            username: {
+                model: '',
+                rules: [
+                    v => !!v || 'E-mail is required',
+                    v => rules.EMAIL.regex.test(v) || 'E-mail must be valid'
+                ],
+                hasError: false,
+                errors: []
+            },
             password: '',
             passwordRules: [
                 v => !!v || 'This field is required',
-                v => v.length >= 7 || 'This field must be more than 7 characters'
+                v => v.length >= rules.PASSWORD.min || `This field must be more than ${rules.PASSWORD.min} characters`
             ]
         }
     },
     methods: {
         submit() {
-            Auth.login(this.username, this.password)
+            this.resetErrors()
+
+            const user = {
+                username: this.username.model,
+                password: this.password
+            }
+
+            this.$store.dispatch(AUTH_LOGIN, user)
+                .then(resp => {
+                    this.$router.replace({ name: 'home' })
+                }, error => {
+                    console.error(error)
+                    this.username.hasError = true
+                    this.username.errors.push(error.message.capitalize())
+                })
+        },
+        resetErrors() {
+            if (this.username.hasError) {
+                this.username.hasError = false
+                this.username.errors.length = 0
+            }
         }
     }
 }
