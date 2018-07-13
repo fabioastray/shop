@@ -1,10 +1,9 @@
 module.exports = {
   'options': {
     'service': "gmail",
-    'port': 465,
     'auth': {
-      'user': '',
-      'pass': ''
+      'user': 'shop2018test@gmail.com',
+      'pass': 'Test13579!'
     }
   }
 }

@@ -14,29 +14,3 @@ exports.me = (req, res, next) => {
     })
   })
 }
-
-// exports.resetpass = (req, res) => {
-//   let {resetKey, newPassword} = req.body
-//   User.find({passResetKey: resetKey}, (err, userData) => {
-//     if (!err) {
-//       let now = new Date().getTime();
-//       let keyExpiration = userDate.passKeyExpires;
-//       if (keyExpiration > now) {
-//         userData.password = bcrypt.hashSync(newPassword, 5);
-//         userData.passResetKey = null; // remove passResetKey from user's records
-//         userData.keyExpiration = null;
-//         userData.save().then(err => { // save the new changes
-//           if (!err) {
-//             res.status(200).send('Password reset successful')
-//           } else {
-//             res.status(500).send('error resetting your password')
-//           }
-//         })
-//       } else {
-//         res.status(400).send('Sorry, pass key has expired. Please initiate the request for a new one');
-//       }
-//     } else {
-//       res.status(400).send('invalid pass key!');
-//     }
-//   })
-// }

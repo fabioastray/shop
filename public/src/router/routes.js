@@ -1,6 +1,7 @@
 import RegisterPage from '../components/RegisterPage'
 import LoginPage from '../components/LoginPage'
 import HomePage from '../components/HomePage'
+import ForgotPasswordPage from '../components/ForgotPasswordPage'
 import store from '../store'
 
 const ifNotAuthenticated = (to, from, next) => {
@@ -39,6 +40,14 @@ export default {
             name: 'login',
             component: LoginPage,
             title: 'Login',
+            icon: 'lock',
+            beforeEnter: ifNotAuthenticated
+        },
+        {
+            path: '/forgotPassword',
+            name: 'forgotPassword',
+            component: ForgotPasswordPage,
+            title: 'Forgot Password',
             icon: 'lock',
             beforeEnter: ifNotAuthenticated
         },

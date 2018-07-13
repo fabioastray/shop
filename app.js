@@ -34,6 +34,8 @@ const AuthMiddleware = require('./src/middleware/auth')
 
 app.post('/auth/register', AuthController.register)
 app.post('/auth/login', AuthController.login)
+app.post('/auth/forgot/password', AuthController.forgotPassword)
+app.post('/auth/reset/password', AuthController.resetPassword)
 app.get('/users/me', AuthMiddleware.verifyToken, UserController.me)
 
 // authorization

@@ -4,6 +4,9 @@ export const rules = {
     },
     EMAIL: {
         regex: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
+    },
+    RESET_KEY: {
+        min: 3
     }
 }
 

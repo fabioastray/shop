@@ -5,6 +5,7 @@ const nodemailer = require('nodemailer')
 const authConfig = require('../../config/auth')
 const mailConfig = require('../../config/mail')
 const HTTP_STATUS_CODE = require('../constants/httpStatusCodes')
+const forgotPassword = require('../templates/forgotPassword')
 
 const User = require('../models/User')
 
@@ -50,7 +51,7 @@ exports.login = (req, res) => {
     }
 
     if(!user) {
-      return res.status(HTTP_STATUS_CODE.NOT_FOUND).send({ auth: false, message: 'no user found with this credentials' })
+      return res.status(HTTP_STATUS_CODE.NOT_FOUND).send({ auth: false, message: 'no user found with these credentials' })
     }
 
     if (!bcrypt.compareSync(password, user.password)) {
@@ -68,14 +69,18 @@ exports.login = (req, res) => {
   })
 }
 
-exports.forgot = (req, res) => {
-  let {email} = req.body; // same as let email = req.body.email
+exports.forgotPassword = (req, res) => {
+  const username = req.body.email
 
-  User.findOne({ username: email }, (error, user) => {
+  if (!username) {
+    return res.status(HTTP_STATUS_CODE.BAD_REQUEST).send({ message: 'email is mandatory' })
+  }
+
+  User.findOne({ username }, (error, user) => {
+
     if (error) {
-      return res.status(HTTP_STATUS_CODE.BAD_REQUEST).send({ message: 'email is incorrect' })
+      return res.status(HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR).send({message: 'could not send reset code1'});
     }
-
     if (!user) {
       return res.status(HTTP_STATUS_CODE.NOT_FOUND).send({ message: 'email not found' })
     }
@@ -83,36 +88,54 @@ exports.forgot = (req, res) => {
     user.passResetKey = shortid.generate()
     user.passKeyExpires = new Date().getTime() + authConfig.authentication.resetAccount.expiresIn
 
-    user.save().then(error => {
-      if (!error) {
-        // configuring SMTP transport mechanism for password reset email
-        let transporter = nodemailer.createTransport(mailConfig);
-        let mailOptions = {
-          subject: `NodeAuthTuts | Password reset`,
-          to: email,
-          from: `NodeAuthTuts <yourEmail@gmail.com>`,
-          html: `
-              <h1>Hi,</h1>
-              <h2>Here is your password reset key</h2>
-              <h2><code contenteditable="false" style="font-weight:200;font-size:1.5rem;padding:5px 10px; background: #EEEEEE; border:0">${passResetKey}</code></h4>
-              <p>Please ignore if you didn't try to reset your password on our platform</p>
-            `
-        };
-        try {
-          transporter.sendMail(mailOptions, (error, response) => {
-            if (error) {
-              console.log("error:\n", error, "\n");
-              res.status(500).send("could not send reset code");
-            } else {
-              console.log("email sent:\n", response);
-              res.status(200).send("Reset Code sent");
-            }
-          });
-        } catch (error) {
-          console.log(error);
-          res.status(500).send("could not sent reset code");
+    user.save().then(user => {
+      let transporter = nodemailer.createTransport(mailConfig.options);
+      let mailOptions = forgotPassword.getOptions(user.username, mailConfig.options.auth.user, user.passResetKey)
+
+      transporter.sendMail(mailOptions, (error, response) => {
+        if (error) {
+          console.log("error:\n", error, "\n");
+          return res.status(HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR).send({ message: 'could not send reset code2' });
+        } else {
+          console.log("email sent:\n", response);
+          return res.status(HTTP_STATUS_CODE.SUCCESS).send({ message: 'reset code sent' });
         }
-      }
+      });
     })
+  })
+}
+
+exports.resetPassword = (req, res) => {
+  const { resetKey, newPassword } = req.body
+
+  if (!resetKey || !newPassword) {
+    return res.status(HTTP_STATUS_CODE.BAD_REQUEST).send({ message: 'reset key and password are mandatory' })
+  }
+
+  User.findOne({ passResetKey: resetKey }, (error, user) => {
+
+    if (error) {
+      return res.status(HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR).send({ message: 'error resetting your password' })
+    }
+    if (!user) {
+      return  res.status(HTTP_STATUS_CODE.NOT_FOUND).send({ message: 'no user has been found with this key' })
+    }
+
+    const now = new Date().getTime()
+    const keyExpiration = user.passKeyExpires
+
+    if (keyExpiration > now) {
+      user.password = bcrypt.hashSync(newPassword, 5)
+      user.passResetKey = null // remove passResetKey from user's records
+      user.keyExpiration = null
+
+      user.save().then(user => { // save the new changes
+        res.status(HTTP_STATUS_CODE.SUCCESS).send({ message: 'password reset successful' })
+      }, (error) => {
+        return res.status(HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR).send({ message: 'error resetting your password' })
+      })
+    } else {
+      res.status(HTTP_STATUS_CODE.BAD_REQUEST).send({ message: 'sorry, pass key has expired. Please initiate the request for a new one' })
+    }
   })
 }

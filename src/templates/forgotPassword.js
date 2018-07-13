@@ -1,8 +1,8 @@
-module.export = (toEmail) => {
+exports.getOptions = (to, from, passResetKey) => {
   return {
-    subject: `NodeAuthTuts | Password reset`,
-    to: toEmail,
-    from: `NodeAuthTuts `,
+    subject: `Shop | Password reset`,
+    from: `Forgot Password ${from}`,
+    to: to,
     html: `
               <h1>Hi,</h1>
               <h2>Here is your password reset key</h2>

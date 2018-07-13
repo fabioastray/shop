@@ -1,7 +1,7 @@
 <template>
     <v-container fluid fill-height>
         <v-layout justify-center align-center>
-            <v-form v-model="validForm"  @submit.prevent="submit">
+            <v-form v-model="validForm" @submit.prevent="submit">
                 Login
                 <v-text-field
                     v-model="username.model"
@@ -26,7 +26,8 @@
                 >
                     submit
                 </v-btn>
-                <router-link to="register">Don't have an account yet? Click here</router-link>
+                <router-link to="forgotPassword">Forgot your password?</router-link>
+                <router-link to="register">Don't have an account yet?</router-link>
             </v-form>
         </v-layout>
     </v-container>
