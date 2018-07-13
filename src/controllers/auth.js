@@ -127,7 +127,7 @@ exports.resetPassword = (req, res) => {
     if (keyExpiration > now) {
       user.password = bcrypt.hashSync(newPassword, 5)
       user.passResetKey = null // remove passResetKey from user's records
-      user.keyExpiration = null
+      user.passKeyExpires = null
 
       user.save().then(user => { // save the new changes
         res.status(HTTP_STATUS_CODE.SUCCESS).send({ message: 'password reset successful' })
