@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 import user from './modules/user'
 import auth from './modules/auth'
 import resetAccount from './modules/resetAccount'
+import busy from './modules/busy'
 
 Vue.use(Vuex)
 
@@ -13,7 +14,8 @@ export default new Vuex.Store({
     modules: {
         user,
         auth,
-        resetAccount
+        resetAccount,
+        busy
     },
     strict: debug
 })

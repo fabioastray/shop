@@ -8,6 +8,7 @@ import 'babel-polyfill'
 import 'es6-promise/auto'
 import './utils/polyfills'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
+import './assets/css/styles.css'
 
 import router from './router'
 import AuthenticatedView from './views/Authenticated'

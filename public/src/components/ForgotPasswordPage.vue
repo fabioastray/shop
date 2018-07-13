@@ -121,6 +121,7 @@ export default {
                         this.$router.replace({ name: 'login' })
                     }
                 }, error => {
+                    error = error.response.data
                     this.resetErrors(elementShowingError)
                     console.error(error)
                     this[elementShowingError].hasError = true

@@ -36,7 +36,7 @@ const actions = {
                     dispatch(AUTH_LOGOUT)
                 }
 
-                reject(error.response.data)
+                reject(error)
             })
         })
     },
@@ -62,7 +62,7 @@ const actions = {
                     dispatch(AUTH_LOGOUT)
                 }
 
-                reject(error.response.data)
+                reject(error)
             })
         })
     },

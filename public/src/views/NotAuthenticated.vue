@@ -1,14 +1,26 @@
 <template>
     <v-app id="app">
-        <v-content>
+        <div id="loader" v-show="isBusy">
+            <v-progress-circular
+                :size="100"
+                color="primary"
+                indeterminate
+            ></v-progress-circular>
+        </div>
+        <v-content v-bind:class="{ 'freeze': isBusy }">
             <router-view></router-view>
         </v-content>
     </v-app>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
-    name: 'NotAuthenticated'
+    name: 'NotAuthenticated',
+    computed: {
+        ...mapGetters(['isBusy'])
+    }
 }
 </script>
 

@@ -71,6 +71,7 @@ export default {
                 .then(resp => {
                     this.$router.replace({ name: 'home' })
                 }, error => {
+                    error = error.response.data
                     console.error(error)
                     this.username.hasError = true
                     this.username.errors.push(error.message.capitalize())

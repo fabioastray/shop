@@ -24,7 +24,7 @@ const actions = {
             }).catch(error => {
                 commit(RESET_ERROR, error)
 
-                reject(error.response.data)
+                reject(error)
             })
         })
     },
@@ -39,7 +39,7 @@ const actions = {
             }).catch(error => {
                 commit(RESET_ERROR, error)
 
-                reject(error.response.data)
+                reject(error)
             })
         })
     }

@@ -1,0 +1,15 @@
+#loader {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    z-index: 9999;
+}
+
+#loader .progress-circular {
+    top: calc(50% - 100px);
+    left: calc(50% - 100px);
+}
+
+.freeze {
+    filter: blur(2px);
+}
