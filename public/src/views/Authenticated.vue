@@ -230,12 +230,10 @@ export default {
         UserInfo
     },
     created() {
-        if (this.$store.getters.isAuthenticated) {
-            this.$store.dispatch(USER_REQUEST)
-                .catch(error => {
-                    this.$router.push('/login')
-                })
-        }
+        this.$store.dispatch(USER_REQUEST)
+            .catch(() => {
+                this.$router.push('/login')
+            })
     },
     computed: {
         ...mapGetters(['isBusy'])
@@ -244,8 +242,5 @@ export default {
 </script>
 
 <style>
-a.router-link-active {
-    color: #fff;
-    text-decoration: none;
-}
+
 </style>

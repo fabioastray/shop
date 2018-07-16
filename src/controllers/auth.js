@@ -59,7 +59,7 @@ exports.login = (req, res) => {
     }
 
     const tobeEncoded = { id: user._id }
-    const token = jwt.sign(tobeEncoded, authConfig.authorization.jwt.secret, { expiresIn: /*authConfig.authorization.jwt.expiresIn*/10 })
+    const token = jwt.sign(tobeEncoded, authConfig.authorization.jwt.secret, { expiresIn: authConfig.authorization.jwt.expiresIn })
     const response = {
       auth: true,
       token

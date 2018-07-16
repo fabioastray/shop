@@ -1,4 +1,4 @@
-import { USER_REQUEST, USER_ERROR, USER_SUCCESS } from '../actions/user'
+import { USER_REQUEST, USER_ERROR, USER_SUCCESS, USER_UPDATE_PROFILE } from '../actions/user'
 import { AUTH_LOGOUT } from '../actions/auth'
 import UserService from '../../services/User'
 import Vue from 'vue'
@@ -9,7 +9,7 @@ const state = {
 }
 
 const getters = {
-    getProfile: state => state.profile,
+    profile: state => state.profile,
     isProfileLoaded: state => Object.keys(state.profile).length > 0
 }
 
@@ -19,15 +19,33 @@ const actions = {
         const userService = new UserService()
 
         return new Promise((resolve, reject) => {
-            userService.me().then(resp => {
-                commit(USER_SUCCESS, resp)
-                resolve(resp)
-            })
-            .catch(error => {
-                commit(USER_ERROR, error)
-                dispatch(AUTH_LOGOUT)
-                reject(error)
-            })
+            userService.me()
+                .then(resp => {
+                    commit(USER_SUCCESS, resp)
+                    resolve(resp)
+                })
+                .catch(error => {
+                    commit(USER_ERROR, error)
+                    dispatch(AUTH_LOGOUT)
+                    reject(error)
+                })
+        })
+    },
+    [USER_UPDATE_PROFILE]: ({ commit, dispatch }, user) => {
+        commit(USER_UPDATE_PROFILE)
+        const userService = new UserService()
+
+        return new Promise((resolve, reject) => {
+            userService.update(user)
+                .then(resp => {
+                    commit(USER_SUCCESS, resp)
+                    resolve(resp)
+                })
+                .catch(error => {
+                    commit(USER_ERROR, error)
+                    dispatch(AUTH_LOGOUT)
+                    reject(error)
+                })
         })
     }
 }
@@ -45,7 +63,10 @@ const mutations = {
     },
     [AUTH_LOGOUT]: state => {
         state.profile = {}
-    }
+    },
+    [USER_UPDATE_PROFILE]: state => {
+        state.status = 'updating profile'
+    },
 }
 
 export default {

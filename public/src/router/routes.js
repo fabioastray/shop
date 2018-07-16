@@ -2,6 +2,7 @@ import RegisterPage from '../components/RegisterPage'
 import LoginPage from '../components/LoginPage'
 import HomePage from '../components/HomePage'
 import ForgotPasswordPage from '../components/ForgotPasswordPage'
+import ProfilePage from '../components/ProfilePage'
 import store from '../store'
 
 const ifNotAuthenticated = (to, from, next) => {
@@ -25,7 +26,7 @@ export default {
         {
             path: '*', // Unknown paths will be redirected to the login page
             redirect: {
-                name: 'login'
+                name: 'home'
             }
         },
         {
@@ -56,6 +57,14 @@ export default {
             name: 'home',
             component: HomePage,
             title: 'Home',
+            icon: 'home',
+            beforeEnter: ifAuthenticated
+        },
+        {
+            path: '/profile',
+            name: 'profile',
+            component: ProfilePage,
+            title: 'profile',
             icon: 'home',
             beforeEnter: ifAuthenticated
         }

@@ -13,3 +13,10 @@
 .freeze {
     filter: blur(2px);
 }
+
+a {
+    text-decoration: none;
+}
+div.toolbar__title a {
+    color: #fff;
+}

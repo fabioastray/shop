@@ -22,6 +22,14 @@ let userSchema = new Schema({
     type: String,
     required: false
   },
+  telephone: {
+    type: Number,
+    required: false
+  },
+  avatar: {
+    type: String,
+    required: false
+  },
   passResetKey: String,
   passKeyExpires: Number,
   createdAt: {
@@ -32,10 +40,26 @@ let userSchema = new Schema({
     type: Date,
     required: false
   }
-}, { runSettersOnQuery: true }) // 'runSettersOnQuery' is used to implement the specifications in our model schema such as the 'trim' option.)
+}, {
+  runSettersOnQuery: true,
+  toObject: {
+    transform: (doc, ret) => {
+      delete ret.__v
+      delete ret.createdAt
+      delete ret.passKeyExpires
+      delete ret.passResetKey
+    }
+  }
+}) // 'runSettersOnQuery' is used to implement the specifications in our model schema such as the 'trim' option.)
 
 userSchema.pre('save', function(next) {
   this.username = this.username.toLowerCase()
+
+  if (!this.avatar)
+    this.avatar = 'https://randomuser.me/api/portraits/men/85.jpg'
+
+  if (!this.fullName)
+    this.fullName = 'Unknown'
 
   const currentDate = new Date().getTime()
   this.updatedAt = currentDate
