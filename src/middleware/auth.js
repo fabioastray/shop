@@ -11,7 +11,7 @@ exports.verifyToken = (req, res, next) => {
 
   jwt.verify(token, config.authorization.jwt.secret, (error, decoded) => {
     if (error) {
-      return res.status(HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR).send({ auth: false, message: 'Failed to authenticate token' })
+      return res.status(HTTP_STATUS_CODE.UNAUTHORIZED).send({ auth: false, message: 'Failed to authenticate token:' + error.message })
     }
 
     req.userId = decoded.id

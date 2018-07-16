@@ -232,6 +232,9 @@ export default {
     created() {
         if (this.$store.getters.isAuthenticated) {
             this.$store.dispatch(USER_REQUEST)
+                .catch(error => {
+                    this.$router.push('/login')
+                })
         }
     },
     computed: {

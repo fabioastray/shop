@@ -18,11 +18,17 @@ const actions = {
         commit(USER_REQUEST)
         const userService = new UserService()
 
-        userService.me().then(resp => commit(USER_SUCCESS, resp))
-            .catch(resp => {
-                commit(USER_ERROR, resp)
-                dispatch(AUTH_LOGOUT)
+        return new Promise((resolve, reject) => {
+            userService.me().then(resp => {
+                commit(USER_SUCCESS, resp)
+                resolve(resp)
             })
+            .catch(error => {
+                commit(USER_ERROR, error)
+                dispatch(AUTH_LOGOUT)
+                reject(error)
+            })
+        })
     }
 }
 
