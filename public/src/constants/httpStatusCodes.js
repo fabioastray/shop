@@ -1,0 +1,12 @@
+export default {
+    'INTERNAL_SERVER_ERROR': 500,
+    'UNAUTHORIZED': 401,
+    'SUCCESS': 200,
+    'NOT_FOUND': 404,
+    'CREATED': 201,
+    'CONFLICT': 409,
+    'BAD_REQUEST': 400,
+    'NOT_IMPLEMENTED': 501,
+    'UNUSED': 306,
+    'MOVED_PERMANENTLY': 301
+}

@@ -2,6 +2,8 @@ import Axios from 'axios'
 import { authorization } from '../constants/auth'
 import { HTTP_REQUEST_START, HTTP_REQUEST_STOP } from '../store/actions/loading'
 import store from '../store/index'
+import {AUTH_LOGOUT} from '../store/actions/auth'
+import HTTP_STATUS_CODES from '../constants/httpStatusCodes'
 
 export default class Http {
     constructor() {
@@ -54,6 +56,9 @@ export default class Http {
             }
         } else {
             mappedError = error
+            if (error.response.status === HTTP_STATUS_CODES.UNAUTHORIZED) {
+                return store.dispatch(AUTH_LOGOUT).then(() => Promise.reject(mappedError))
+            }
         }
 
         return Promise.reject(mappedError)

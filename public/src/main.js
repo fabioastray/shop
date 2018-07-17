@@ -2,6 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import Vuetify from 'vuetify'
+import Notifications from 'vue-notification'
 
 import 'vuetify/dist/vuetify.min.css'
 import 'babel-polyfill'
@@ -16,6 +17,7 @@ import NotAuthenticatedView from './views/NotAuthenticated'
 import store from './store'
 
 Vue.use(Vuetify)
+Vue.use(Notifications)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

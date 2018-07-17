@@ -8,6 +8,7 @@
             ></v-progress-circular>
         </div>
         <v-content v-bind:class="{ 'freeze': isBusy }">
+            <notifications group="foo" />
             <router-view></router-view>
         </v-content>
     </v-app>

@@ -62,10 +62,19 @@ export default {
 
             this.$store.dispatch(USER_UPDATE_PROFILE, user)
                 .then(resp => {
-                    // show toast
+                    this.$notify({
+                        group: 'foo',
+                        title: 'Important message',
+                        text: 'Successfully updated profile'.capitalize(),
+                        type: 'success'
+                    })
                 }, error => {
-                    error = error.response.data
-                    console.error(error)
+                    this.$notify({
+                        group: 'foo',
+                        title: 'Important message',
+                        text: error.response.data.message.capitalize(),
+                        type: 'error'
+                    })
                 })
         }
     }

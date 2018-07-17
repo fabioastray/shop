@@ -26,7 +26,6 @@ const actions = {
                 })
                 .catch(error => {
                     commit(USER_ERROR, error)
-                    dispatch(AUTH_LOGOUT)
                     reject(error)
                 })
         })
@@ -43,7 +42,6 @@ const actions = {
                 })
                 .catch(error => {
                     commit(USER_ERROR, error)
-                    dispatch(AUTH_LOGOUT)
                     reject(error)
                 })
         })
@@ -66,7 +64,7 @@ const mutations = {
     },
     [USER_UPDATE_PROFILE]: state => {
         state.status = 'updating profile'
-    },
+    }
 }
 
 export default {

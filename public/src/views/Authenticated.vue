@@ -8,6 +8,7 @@
             ></v-progress-circular>
         </div>
         <div v-bind:class="{ 'freeze': isBusy }">
+            <notifications group="foo" />
             <v-navigation-drawer
                 :clipped="$vuetify.breakpoint.lgAndUp"
                 v-model="drawer"
