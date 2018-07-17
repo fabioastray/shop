@@ -65,7 +65,7 @@ export default {
                     this.$notify({
                         group: 'foo',
                         title: 'Important message',
-                        text: 'Successfully updated profile'.capitalize(),
+                        text: 'successfully updated profile'.capitalize(),
                         type: 'success'
                     })
                 }, error => {

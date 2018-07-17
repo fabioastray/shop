@@ -7,10 +7,10 @@ export default class UserService {
     }
 
     me() {
-        return this.http.get('/users/me').then((data) => new User(data))
+        return this.http.get('/users/me').then(data => new User(data))
     }
 
     update(user) {
-        return this.http.post('/users/update', user).then((data) => new User(data))
+        return this.http.post('/users/update', user).then(data => new User(data))
     }
 }
