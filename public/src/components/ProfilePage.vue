@@ -39,6 +39,13 @@
                 >
                     submit
                 </v-btn>
+                <v-btn
+                    type="reset"
+                    class="right"
+                    @click="copyProfile"
+                >
+                    reset
+                </v-btn>
             </v-form>
         </v-layout>
     </v-container>
@@ -52,11 +59,15 @@ export default {
     name: 'ProfilePage',
     data () {
         return {
-            validForm: false
+            validForm: false,
+            backup: null
         }
     },
     computed: mapState({ profile: state => Object.assign({}, state.user.profile) }),
     methods: {
+        copyProfile() {
+            this.profile = Object.assign({}, this.$store.getters.profile)
+        },
         submit() {
             const user = this.profile
 
