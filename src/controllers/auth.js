@@ -12,7 +12,7 @@ const User = require('../models/User')
 exports.register = (req, res) => {
   let newUser = new User({
     username: req.body.username,
-    password: bcrypt.hashSync(req.body.password, 8)
+    password: req.body.password
   })
 
   newUser.save().then(user => {
