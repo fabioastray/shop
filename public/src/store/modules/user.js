@@ -64,10 +64,6 @@ const mutations = {
     },
     [USER_UPDATE_PROFILE]: state => {
         state.status = 'updating profile'
-    },
-    [USER_RESET_PROFILE]: state => {
-        state.status = 'reset profile'
-        Vue.set(state, 'profile', state.profile)
     }
 }
 
