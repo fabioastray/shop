@@ -42,7 +42,7 @@
                 <v-btn
                     type="reset"
                     class="right"
-                    @click="copyProfile"
+                    @click="reset"
                 >
                     reset
                 </v-btn>
@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 import { USER_UPDATE_PROFILE } from '../store/actions/user'
 
 export default {
@@ -63,15 +63,13 @@ export default {
             backup: null
         }
     },
-    computed: mapState({ profile: state => Object.assign({}, state.user.profile) }),
+    computed: mapGetters({ profile: 'profileCopy' }),
     methods: {
-        copyProfile() {
-            this.profile = Object.assign({}, this.$store.getters.profile)
+        reset() {
+            this.profile = this.$store.getters.profileCopy
         },
         submit() {
-            const user = this.profile
-
-            this.$store.dispatch(USER_UPDATE_PROFILE, user)
+            this.$store.dispatch(USER_UPDATE_PROFILE, this.profile)
                 .then(resp => {
                     this.$notify({
                         group: 'foo',

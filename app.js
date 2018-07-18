@@ -39,13 +39,4 @@ app.post('/auth/reset/password', AuthController.resetPassword)
 app.get('/users/me', AuthMiddleware.verifyToken, UserController.me)
 app.post('/users/update', AuthMiddleware.verifyToken, UserController.update)
 
-// authorization
-// app.use((req, res, next) => {
-//     if (req.session.user) {
-//         next();
-//     } else {
-//         res.status(401).send('Authorization failed! Please login');
-//     }
-// });
-
 module.exports = app;

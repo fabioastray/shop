@@ -10,6 +10,7 @@ const state = {
 
 const getters = {
     profile: state => state.profile,
+    profileCopy: state => Object.assign({}, state.profile),
     isProfileLoaded: state => Object.keys(state.profile).length > 0
 }
 
