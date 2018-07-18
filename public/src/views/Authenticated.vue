@@ -82,7 +82,7 @@
                 fixed
                 @click.stop="dialog = !dialog"
             >
-                <v-icon>add</v-icon>
+                <v-icon style="margin-top: 50%;">add</v-icon>
             </v-btn>
             <v-dialog v-model="dialog" width="800px">
             <v-card>

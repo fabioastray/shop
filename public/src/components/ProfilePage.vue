@@ -40,11 +40,10 @@
                     submit
                 </v-btn>
                 <v-btn
-                    type="reset"
                     class="right"
-                    @click="reset"
+                    @click="restoreProfile"
                 >
-                    reset
+                    cancel
                 </v-btn>
             </v-form>
         </v-layout>
@@ -52,25 +51,39 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import { USER_UPDATE_PROFILE } from '../store/actions/user'
+import { USER_UPDATE_PROFILE, USER_REQUEST } from '../store/actions/user'
 
 export default {
     name: 'ProfilePage',
     data () {
         return {
             validForm: false,
-            backup: null
+            profile: {}
         }
     },
-    computed: mapGetters({ profile: 'profileCopy' }),
+    created() {
+        if (!this.$store.getters.isProfileLoaded) {
+            this.$store.dispatch(USER_REQUEST)
+                .then(response => {
+                    this.backupProfile(response)
+                })
+        } else {
+            this.backupProfile(this.$store.getters.profile)
+        }
+    },
     methods: {
-        reset() {
-            this.profile = this.$store.getters.profileCopy
+        backupProfile(profile) {
+            this.backup = profile
+            this.profile = Object.assign({}, this.backup)
+        },
+        restoreProfile() {
+            this.profile = Object.assign({}, this.backup)
         },
         submit() {
             this.$store.dispatch(USER_UPDATE_PROFILE, this.profile)
                 .then(resp => {
+                    this.backupProfile(resp)
+
                     this.$notify({
                         group: 'foo',
                         title: 'Important message',

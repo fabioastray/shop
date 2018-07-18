@@ -1,4 +1,4 @@
-import { USER_REQUEST, USER_ERROR, USER_SUCCESS, USER_UPDATE_PROFILE } from '../actions/user'
+import { USER_REQUEST, USER_ERROR, USER_SUCCESS, USER_UPDATE_PROFILE, USER_RESET_PROFILE } from '../actions/user'
 import { AUTH_LOGOUT } from '../actions/auth'
 import UserService from '../../services/User'
 import Vue from 'vue'
@@ -10,7 +10,6 @@ const state = {
 
 const getters = {
     profile: state => state.profile,
-    profileCopy: state => Object.assign({}, state.profile),
     isProfileLoaded: state => Object.keys(state.profile).length > 0
 }
 
@@ -65,6 +64,10 @@ const mutations = {
     },
     [USER_UPDATE_PROFILE]: state => {
         state.status = 'updating profile'
+    },
+    [USER_RESET_PROFILE]: state => {
+        state.status = 'reset profile'
+        Vue.set(state, 'profile', state.profile)
     }
 }
 
