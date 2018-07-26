@@ -1,4 +1,4 @@
-import { USER_REQUEST, USER_ERROR, USER_SUCCESS, USER_UPDATE_PROFILE, USER_RESET_PROFILE } from '../actions/user'
+import { USER_REQUEST, USER_ERROR, USER_SUCCESS, USER_UPDATE_PROFILE } from '../actions/user'
 import { AUTH_LOGOUT } from '../actions/auth'
 import UserService from '../../services/User'
 import Vue from 'vue'
