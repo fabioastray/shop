@@ -14,6 +14,14 @@
     filter: blur(2px);
 }
 
+.fixed {
+    position: fixed;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
 a {
     text-decoration: none;
 }
