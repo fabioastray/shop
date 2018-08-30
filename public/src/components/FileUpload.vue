@@ -23,9 +23,10 @@ export default {
         }
     },
     mounted() {
-        const file = document.getElementById('avatar-file')
+        const id = 'avatar-file'
+        const file = document.getElementById(id)
         if (!file) {
-            console.error('No input file found with id:', 'avatar-file')
+            console.error('No input file found with id:', id)
         } else {
             this.avatarInputFile = file
         }
@@ -36,8 +37,20 @@ export default {
         },
         onChange(event) {
             let file = null
-            if (event.target.files && event.target.files.length) {
-                file = event.target.files[0]
+            if (event.target.files) {
+                if (event.target.files.length > 1) {
+                    event.target.value = null
+                    return this.$emit('error', 'only one file is allowed')
+                } else {
+                    file = event.target.files[0]
+                    const fileSizeInMb = Math.round(file.size / 1024)// To Mb
+                    const allowedSizeInMb = Math.round(this.size * 1024) // To Mb
+
+                    if (fileSizeInMb > allowedSizeInMb) {
+                        event.target.value = null
+                        return this.$emit('error', `file size is not allowed, max is: ${allowedSizeInMb} Mb`)
+                    }
+                }
             }
             this.$emit('change', file)
         }

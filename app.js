@@ -37,6 +37,23 @@ app.post('/auth/login', AuthController.login)
 app.post('/auth/forgot/password', AuthController.forgotPassword)
 app.post('/auth/reset/password', AuthController.resetPassword)
 app.get('/users/me', AuthMiddleware.verifyToken, UserController.me)
-app.post('/users/update', AuthMiddleware.verifyToken, UserController.update)
+
+const multer = require('multer')
+const storageConfig = require('./config/storage')
+const filter  = require('./src/filters/image')
+
+app.use(express.static(storageConfig.getRootFolder()))
+
+const multerStorage = multer.diskStorage({
+  destination(req, file, callback) {
+    callback(null, storageConfig.getRootFolder() + storageConfig.getImageFolder())
+  },
+  filename(req, file, callback) {
+    callback(null, `${req.body._id}.${file.mimetype.split('/').pop()}`)
+  }
+})
+
+const upload = multer({ storage: multerStorage, fileFilter: filter.imageOnly })
+app.post('/users/update', [AuthMiddleware.verifyToken, upload.single('avatar')], UserController.update)
 
 module.exports = app;

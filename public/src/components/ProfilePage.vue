@@ -1,7 +1,7 @@
 <template>
     <v-container fluid fill-height>
         <v-layout justify-center align-center>
-            <v-form v-model="validForm" @submit.prevent="submit">
+            <v-form v-model="validForm" @submit.prevent="submit" enctype="multipart/form-data">
                 <h3>My Profile</h3>
                 <v-divider></v-divider>
                 <v-text-field
@@ -34,14 +34,17 @@
                           @mouseenter="isHover = true"
                           @mouseleave="isHover = false">
                         <img :class="{ 'freeze': isHover }"
-                            :src="profile.avatar"
+                             v-if="profile.avatar"
+                            :src="profile.avatar.url"
                             alt="Avatar"
                         >
                         <file-upload
                             v-show="isHover"
-                            accept="acceptedFileFormats"
-                            size="acceptedFileSize"
-                            @change="onAvatarSelection"></file-upload>
+                            :accept="acceptedFileFormats"
+                            :size="acceptedFileSize"
+                            @change="onAvatarSelection"
+                            @error="onAvatarSelectionError"
+                        ></file-upload>
                     </v-avatar>
                 </v-layout>
                 <v-btn
@@ -66,6 +69,7 @@
 <script>
 import { USER_UPDATE_PROFILE, USER_REQUEST } from '../store/actions/user'
 import FileUpload from './FileUpload'
+import Utils from '../utils/utils'
 
 export default {
     name: 'ProfilePage',
@@ -75,9 +79,8 @@ export default {
             validForm: false,
             profile: {},
             isHover: false,
-            avatarFile: null,
-            acceptedFileFormats: ['image/jpeg' , 'image/png'],
-            acceptedFileSize: 1024
+            acceptedFileFormats: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif'],
+            acceptedFileSize: 1
         }
     },
     created() {
@@ -93,13 +96,18 @@ export default {
     methods: {
         backupProfile(profile) {
             this.backup = profile
-            this.profile = Object.assign({}, this.backup)
+            this.profile = Utils.copyObject(this.backup)
         },
         restoreProfile() {
-            this.profile = Object.assign({}, this.backup)
+            this.profile = Utils.copyObject(this.backup)
         },
         submit() {
-            this.$store.dispatch(USER_UPDATE_PROFILE, this.profile)
+            const profile = this.mapProfileToForm(this.profile)
+            // for (const value of profile.values()) {
+            //     console.log(value);
+            // }
+
+            this.$store.dispatch(USER_UPDATE_PROFILE, profile)
                 .then(resp => {
                     this.backupProfile(resp)
 
@@ -119,7 +127,43 @@ export default {
                 })
         },
         onAvatarSelection(file) {
-            console.log('file', file)
+            const reader = new FileReader()
+
+            reader.onload = (e) => {
+                this.profile.avatar = {
+                    url: e.target.result,
+                    file: file
+                }
+            }
+
+            reader.readAsDataURL(file)
+        },
+        onAvatarSelectionError(error) {
+            this.$notify({
+                group: 'foo',
+                title: 'Important message',
+                text: error.capitalize(),
+                type: 'error'
+            })
+        },
+        mapProfileToForm(profile) {
+            if (profile.avatar.file) {
+                const formData = new FormData()
+
+                for (const property in profile) {
+                    const field = profile[property]
+
+                    if (property === 'avatar') {
+                        formData.append(property, field.file, field.file.name)
+                    } else {
+                        formData.append(property, field)
+                    }
+                }
+
+                return formData
+            }
+
+            return profile
         }
     }
 }

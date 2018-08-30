@@ -4,7 +4,10 @@ export default class User {
         this.username = user.username
         this.fullName = user.fullName
         this.type = user.type
-        this.avatar = user.avatar
+        this.avatar = {
+            url: user.avatar.url,
+            file: null
+        }
         this.gender = user.gender
         this.telephone = user.telephone
     }

@@ -3,7 +3,7 @@
         <v-list class="pa-0">
             <v-list-tile avatar>
                 <v-list-tile-avatar>
-                    <img :src="profile.avatar" @click="goToProfile">
+                    <img v-if="profile.avatar" :src="profile.avatar.url" @click="goToProfile">
                 </v-list-tile-avatar>
                 <v-list-tile-content>
                     <v-list-tile-title>

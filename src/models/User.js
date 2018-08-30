@@ -28,7 +28,15 @@ let userSchema = new Schema({
     required: false
   },
   avatar: {
-    type: String,
+    destination: {
+      type: String
+    },
+    filename: {
+      type: String
+    },
+    mimetype: {
+      type: String
+    },
     required: false
   },
   passResetKey: String,
@@ -50,6 +58,21 @@ let userSchema = new Schema({
       delete ret.passKeyExpires
       delete ret.passResetKey
       delete ret.password
+
+      let avatar = {}
+
+      if (ret.avatar) {
+        avatar = {
+          url: `${ret.avatar.destination}/${ret.avatar.filename}`
+        }
+      } else {
+        const gender = !ret.gender ? 'lego' : ret.gender === 'M' ? 'men' : 'women'
+        avatar = {
+          url: `https://randomuser.me/api/portraits/${gender}/1.jpg`
+        }
+      }
+
+      ret.avatar = avatar;
     }
   }
 }) // 'runSettersOnQuery' is used to implement the specifications in our model schema such as the 'trim' option.)
@@ -57,10 +80,6 @@ let userSchema = new Schema({
 userSchema.pre('save', function(next) {
   this.username = this.username.toLowerCase()
   this.password = bcrypt.hashSync(this.password, 8)
-
-  if (!this.avatar) {
-    this.avatar = 'https://randomuser.me/api/portraits/men/85.jpg'
-  }
 
   if (!this.fullName) {
     this.fullName = 'Unknown'
@@ -91,7 +110,6 @@ userSchema.pre('findOneAndUpdate', function (next) {
   }
 
   this.update({}, {
-    avatar: doc.avatar || 'https://randomuser.me/api/portraits/men/85.jpg',
     fullName: doc.fullName || 'Unknown',
     updatedAt: new Date().getTime()
   })

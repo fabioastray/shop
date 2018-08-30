@@ -103,6 +103,10 @@ export default {
         return newObj
     },
 
+    copyObject(object) {
+        return JSON.parse(JSON.stringify(object))
+    },
+
     resetArraySize: function(array) {
         array.length = 0
         return array

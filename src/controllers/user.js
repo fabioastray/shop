@@ -1,5 +1,6 @@
 const HTTP_STATUS_CODE = require('../constants/httpStatusCodes')
 const User = require('../models/User')
+const storageConfig = require('../../config/storage')
 
 exports.me = (req, res, next) => {
   User.findById(req.userId, { password: 0 }, (error, user) => {
@@ -12,6 +13,13 @@ exports.me = (req, res, next) => {
 
 exports.update = (req, res, next) => {
   const user = req.body
+  if (req.file) {
+    user.avatar = {
+      destination: storageConfig.getImageFolder(),
+      filename: req.file.filename,
+      mimetype: req.file.mimetype
+    }
+  }
 
   User.findOneAndUpdate({ _id: user._id }, user, { new: true }, (error, savedUser) => {
     if (error) return res.status(HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR).send({ message: 'There was a problem finding the user' })

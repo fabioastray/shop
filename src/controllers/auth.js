@@ -54,6 +54,10 @@ exports.login = (req, res) => {
       return res.status(HTTP_STATUS_CODE.NOT_FOUND).send({ auth: false, message: 'no user found with these credentials' })
     }
 
+    console.info(password)
+    console.info(user.password)
+    console.info(bcrypt.compareSync(password, user.password))
+
     if (!bcrypt.compareSync(password, user.password)) {
       return res.status(HTTP_STATUS_CODE.UNAUTHORIZED).send({ auth: false, message: 'invalid login credentials', token: null })
     }
@@ -128,6 +132,8 @@ exports.resetPassword = (req, res) => {
       user.password = bcrypt.hashSync(newPassword, 5)
       user.passResetKey = null // remove passResetKey from user's records
       user.passKeyExpires = null
+
+      console.info('user', user)
 
       user.save().then(user => { // save the new changes
         res.status(HTTP_STATUS_CODE.SUCCESS).send({ message: 'password reset successful' })

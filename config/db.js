@@ -1,7 +1,7 @@
 // Connect to DB
 const mongoose =  require('mongoose')
 /**
- * https://mlab.com, user: rockastray@gmail.com, pass: unforgiven123
+ * https://mlab.com, user: rockastray@gmail.com, pass: Unforgiven123
  */
 const options = {
   user: 'root',
