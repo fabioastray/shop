@@ -145,13 +145,15 @@ export default {
             })
         },
         mapProfileToForm(profile) {
-            if (profile.avatar.file) {
+            const profileCopy = Utils.copyObject(profile)
+
+            if (profileCopy.avatar.file) {
                 const formData = new FormData()
 
                 for (const property in profile) {
                     const field = profile[property]
 
-                    if (property === 'avatar') {
+                    if (property === 'avatar' && field.file) {
                         formData.append(property, field.file, field.file.name)
                     } else {
                         formData.append(property, field)
@@ -159,9 +161,11 @@ export default {
                 }
 
                 return formData
+            } else {
+                delete profileCopy.avatar
             }
 
-            return profile
+            return profileCopy
         }
     }
 }
