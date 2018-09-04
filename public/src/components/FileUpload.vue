@@ -39,7 +39,6 @@ export default {
             let file = null
             if (event.target.files) {
                 if (event.target.files.length > 1) {
-                    event.target.value = null
                     return this.$emit('error', 'only one file is allowed')
                 } else {
                     file = event.target.files[0]
@@ -47,11 +46,11 @@ export default {
                     const allowedSizeInMb = Math.round(this.size * 1024) // To Mb
 
                     if (fileSizeInMb > allowedSizeInMb) {
-                        event.target.value = null
                         return this.$emit('error', `file size is not allowed, max is: ${allowedSizeInMb} Mb`)
                     }
                 }
             }
+            event.target.value = null
             this.$emit('change', file)
         }
     }

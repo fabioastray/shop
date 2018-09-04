@@ -35,8 +35,9 @@
                           @mouseleave="isHover = false">
                         <img :class="{ 'freeze': isHover }"
                              v-if="profile.avatar"
-                            :src="profile.avatar.url"
-                            alt="Avatar"
+                             :src="profile.avatar.url"
+                             alt="Avatar"
+                             ref="profile-avatar"
                         >
                         <file-upload
                             v-show="isHover"
@@ -103,9 +104,6 @@ export default {
         },
         submit() {
             const profile = this.mapProfileToForm(this.profile)
-            // for (const value of profile.values()) {
-            //     console.log(value);
-            // }
 
             this.$store.dispatch(USER_UPDATE_PROFILE, profile)
                 .then(resp => {

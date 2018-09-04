@@ -2,6 +2,7 @@ import { USER_REQUEST, USER_ERROR, USER_SUCCESS, USER_UPDATE_PROFILE } from '../
 import { AUTH_LOGOUT } from '../actions/auth'
 import UserService from '../../services/User'
 import Vue from 'vue'
+import Utils from '../../utils/utils'
 
 const state = {
     status: '',
@@ -54,6 +55,9 @@ const mutations = {
     },
     [USER_SUCCESS]: (state, resp) => {
         state.status = 'success'
+        // clearing browser's cache to reflect change immediately
+        resp.avatar.url += `?${Utils.getRandomInt(1000)}`
+
         Vue.set(state, 'profile', resp)
     },
     [USER_ERROR]: state => {
