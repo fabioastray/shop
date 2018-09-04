@@ -51,7 +51,7 @@ let userSchema = new Schema({
   }
 }, {
   runSettersOnQuery: true,
-  toObject: {
+  toJSON: {
     transform: (doc, ret) => {
       delete ret.__v
       delete ret.createdAt

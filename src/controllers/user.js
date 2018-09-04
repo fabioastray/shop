@@ -15,10 +15,12 @@ exports.update = (req, res, next) => {
   const user = req.body
   if (req.file) {
     user.avatar = {
-      destination: storageConfig.getImageFolder(),
+      destination: storageConfig.getHostname() + storageConfig.getImageFolder(),
       filename: req.file.filename,
       mimetype: req.file.mimetype
     }
+
+    console.log(user.avatar.destination)
   }
 
   User.findOneAndUpdate({ _id: user._id }, user, { new: true }, (error, savedUser) => {

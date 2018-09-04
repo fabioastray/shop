@@ -54,10 +54,6 @@ exports.login = (req, res) => {
       return res.status(HTTP_STATUS_CODE.NOT_FOUND).send({ auth: false, message: 'no user found with these credentials' })
     }
 
-    console.info(password)
-    console.info(user.password)
-    console.info(bcrypt.compareSync(password, user.password))
-
     if (!bcrypt.compareSync(password, user.password)) {
       return res.status(HTTP_STATUS_CODE.UNAUTHORIZED).send({ auth: false, message: 'invalid login credentials', token: null })
     }
@@ -98,10 +94,8 @@ exports.forgotPassword = (req, res) => {
 
       transporter.sendMail(mailOptions, (error, response) => {
         if (error) {
-          console.log("error:\n", error, "\n");
           return res.status(HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR).send({ message: 'could not send reset code2' });
         } else {
-          console.log("email sent:\n", response);
           return res.status(HTTP_STATUS_CODE.SUCCESS).send({ message: 'reset code sent' });
         }
       });
@@ -129,11 +123,9 @@ exports.resetPassword = (req, res) => {
     const keyExpiration = user.passKeyExpires
 
     if (keyExpiration > now) {
-      user.password = bcrypt.hashSync(newPassword, 5)
+      user.password = newPassword
       user.passResetKey = null // remove passResetKey from user's records
       user.passKeyExpires = null
-
-      console.info('user', user)
 
       user.save().then(user => { // save the new changes
         res.status(HTTP_STATUS_CODE.SUCCESS).send({ message: 'password reset successful' })
