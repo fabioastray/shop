@@ -1,10 +1,26 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <h2>Found </h2>
-    <ul>
-    </ul>
-  </div>
+    <v-container fluid grid-list-lg>
+        <v-layout row wrap>
+            <v-flex v-for="i in 9" :key="i" sm4 lg4>
+                <v-card>
+                    <v-img
+                        src="https://cdn.vuetifyjs.com/images/cards/desert.jpg"
+                        aspect-ratio="2.75"
+                    ></v-img>
+                    <v-card-title primary-title>
+                        <div>
+                            <h3 class="headline mb-0">Kangaroo Valley Safari</h3>
+                            <div>Located two hours south of Sydney in the <br>Southern Highlands of New South Wales, ...</div>
+                        </div>
+                    </v-card-title>
+                    <v-card-actions>
+                        <v-btn flat color="orange">Share</v-btn>
+                        <v-btn flat color="orange">Explore</v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-flex>
+        </v-layout>
+    </v-container>
 </template>
 
 <script>
